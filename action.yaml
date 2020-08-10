@@ -1,6 +1,7 @@
 name: 'Fork Sync With Upstream'
 author: 'Adam Ormsby (@aormsby)'
 description: 'Automatically updates fork with new commits from upstream repo, run on an unmodified branch (usually master)'
+
 branding:
   icon: refresh-ccs
   color: orange
@@ -23,7 +24,7 @@ inputs:
     description: 'Branch to push to, default => master'
     required: true
     default: 'master'
-    
+
 runs:
   using: 'node12'
   main: 'main.js'
