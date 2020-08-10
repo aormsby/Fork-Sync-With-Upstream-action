@@ -35,7 +35,7 @@ fi
 
 # display commits since last sync
 echo 'New commits being pulled:' 1>&1
-git log "${INPUT_UPSTREAM_BRANCH}"/"${INPUT_TARGET_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD --pretty=oneline
+git log upstream/"${INPUT_TARGET_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD --pretty=oneline
 
 # pull from upstream to target_branch
 echo 'Pulling...' 1>&1
