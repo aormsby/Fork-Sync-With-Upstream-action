@@ -1,0 +1,25 @@
+name: 'Fork Sync With Upstream'
+author: 'Adam Ormsby (@aormsby)'
+description: 'Automatically updates fork with new commits from upstream repo, run on an unmodified branch (usually master)'
+branding:
+  icon: refresh-ccs
+  color: orange
+
+inputs:
+  github_token:
+    description: 'Token for accessing the remote repo'
+    required: false
+  upstream_repository:
+    description: 'Upstream repository, e.g. => aormsby/upstream-sync-action'
+    required: true
+  upstream_branch:
+    description: 'Branch to pull from, default => master'
+    required: true
+    default: 'master'
+  target_branch:
+    description: 'Branch to push to, default => master'
+    required: true
+    default: 'master'
+runs:
+  using: 'node12'
+  main: 'main.js'
