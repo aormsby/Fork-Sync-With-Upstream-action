@@ -5,7 +5,7 @@ set -e
 # fail if upstream_repository is not set in workflow
 if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
     echo 'Workflow missing input value for "upstream_repository"' 1>&2
-    echo '      example: "upstream_repository: aormsby/fork-sync-upstream-action"' 1>&2
+    echo '      example: "upstream_repository: aormsby/fork-sync-with-upstream-action"' 1>&2
     exit 1
 else
     UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
