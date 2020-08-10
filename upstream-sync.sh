@@ -31,7 +31,7 @@ UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 if [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
     echo 'No new commits to sync, exiting' 1>&1
     exit 0
-# fi
+fi
 
 # display commits since last sync
 echo 'New commits being pulled:' 1>&1
