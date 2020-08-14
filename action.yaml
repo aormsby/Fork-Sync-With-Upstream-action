@@ -8,20 +8,20 @@ branding:
 
 inputs:
   github_token:
-    description: 'Token for accessing the remote repo'
+    description: 'Token for accessing the remote repo with authentication'
     required: false
 
   upstream_repository:
-    description: 'Upstream repository, e.g. => aormsby/upstream-sync-action'
+    description: 'Upstream repository, e.g. => aormsby/Fork-Sync-With-Upstream-action'
     required: true
 
   upstream_branch:
-    description: 'Branch to pull from, default => master'
+    description: 'Branch to pull from, default = master'
     required: true
     default: 'master'
 
   target_branch:
-    description: 'Branch to push to, default => master'
+    description: 'Branch to push to, default = master'
     required: true
     default: 'master'
 
