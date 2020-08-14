@@ -3,7 +3,7 @@ author: 'Adam Ormsby (@aormsby)'
 description: 'Automatically updates fork with new commits from upstream repo, run on an unmodified branch (usually master)'
 
 branding:
-  icon: refresh-ccs
+  icon: refresh-ccw
   color: orange
 
 inputs:
