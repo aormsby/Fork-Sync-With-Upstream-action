@@ -10,19 +10,27 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 
 ### Input Variables
 
-- **upstream_repository** - Name/location of the upstream repository
-  - Do not use full URLs, only user name and repo name, e.g. => aormsby/Fork-Sync-With-Upstream-action
-  - **required** - action will not run without this input
+| Name                | Required?           | Default  | Example |
+| ------------------- |:------------------: | -------- | ----------
+| upstream_repository | :white_check_mark:  |          | aormsby/Fork-Sync-With-Upstream-action |
+| upstream_branch     | :white_check_mark:  | 'master' | 'master'                               |
+| target_branch       | :white_check_mark:  | 'master' | 'master'                               |
+| github_token        |                     |          | ${{ secrets.GITHUB_TOKEN }}            |
 
-- **upstream_branch** - Branch to pull from in the upstream repo
-  - **required** - but defaults to 'master' branch if not specified
+For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
 
-- **target_branch** - Branch to push to in the target repo
-  - **required** - but defaults to 'master' branch if not specified
+## Sync Process - Quick Overview
 
-- **github_token** - Token for accessing the remote repo with authentication
-  - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
-  - not required
+Right now, the `main.js` script only exists to execute `upstream-sync.sh`. It's possible that future updates will add functionality. The shell script does the following:
+
+1. Check if you included `upstream_branch` in your inputs (required!)
+2. Make sure the right local branch is checked out (`target_branch`)
+3. Add the upstream repo you listed
+4. Check if there are any new commits to sync (and prints any new commits as oneline statements)
+5. Pull from the upstream repo
+6. Push to the target branch of the target repo
+
+**Ta-da!**
 
 ## Sample Workflow
 This workflow is currently in use in some of my forked repos. [View Live Sample](https://github.com/aormsby/F-hugo-theme-hello-friend/blob/Working/.github/workflows/wf-fork-sync.yaml)
