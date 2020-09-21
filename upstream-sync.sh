@@ -24,7 +24,7 @@ git remote add upstream "${UPSTREAM_REPO}"
 # git remote -v
 
 # check latest commit hashes for a match, exit if nothing to sync
-git fetch upstream master
+git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
 LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
 UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 
