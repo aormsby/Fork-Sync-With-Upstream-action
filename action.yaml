@@ -25,6 +25,10 @@ inputs:
     required: true
     default: 'master'
 
+outputs:
+  has_new_commits:
+    description: 'true when new commits were included in this sync.'
+
 runs:
   using: 'node12'
   main: 'main.js'
