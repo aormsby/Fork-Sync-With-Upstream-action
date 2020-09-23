@@ -19,6 +19,10 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 
 For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
 
+### Output Variables
+
+**has_new_commits** - True when new commits were included in this sync
+
 ## Sync Process - Quick Overview
 
 Right now, the `main.js` script only exists to execute `upstream-sync.sh`. It's possible that future updates will add functionality. The shell script does the following:
@@ -52,7 +56,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: master
-    
+
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull upstream changes
       id: sync
@@ -62,8 +66,13 @@ jobs:
         upstream_branch: master
         target_branch: master                       # optional
         github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that requir authentication
-        
-    # Step 3: Print a helpful timestamp for your records (optional)
+
+    # Step 3: Display a message if 'sync' step had new commits (simple test)
+    - name: Check for new commits
+      if: steps.sync.outputs.has-new-commits
+      run: echo "There were new commits."
+
+    # Step 4: Print a helpful timestamp for your records (not required)
     - name: Timestamp
       run: date
 ```
