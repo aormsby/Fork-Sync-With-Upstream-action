@@ -36,15 +36,15 @@ fi
 
 echo "::set-output name=has_new_commits::true"
 # display commits since last sync
-echo 'New commits being pulled:' 1>&1
+echo 'New commits being synced:' 1>&1
 git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD --pretty=oneline
 
-# pull from upstream to target_branch
-echo 'Pulling...' 1>&1
+# sync from upstream to target_branch
+echo 'Syncing...' 1>&1
 # do not quote SYNC_COMMAND. It may contain more than one argument.
-# examples: "pull", "merge --ff-only", "reset --hard"
+# sync_command examples: "pull", "merge --ff-only", "reset --hard"
 git ${INPUT_GIT_SYNC_COMMAND} upstream "${INPUT_UPSTREAM_BRANCH}"
-echo 'Pull successful' 1>&1
+echo 'Sync successful' 1>&1
 
 # push to origin target_branch
 echo 'Pushing to target branch...' 1>&1
