@@ -25,6 +25,11 @@ inputs:
     required: true
     default: 'master'
 
+  git_sync_command:
+    description: 'Which git command to use for sync (eg "merge --ff-only" or "reset --hard"), default = pull'
+    required: false
+    default: 'pull'
+
 outputs:
   has_new_commits:
     description: 'true when new commits were included in this sync.'
