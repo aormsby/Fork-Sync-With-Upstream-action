@@ -41,7 +41,9 @@ git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD --prett
 
 # pull from upstream to target_branch
 echo 'Pulling...' 1>&1
-git pull upstream "${INPUT_UPSTREAM_BRANCH}"
+# do not quote SYNC_COMMAND. It may contain more than one argument.
+# examples: "pull", "merge --ff-only", "reset --hard"
+git ${INPUT_GIT_SYNC_COMMAND} upstream "${INPUT_UPSTREAM_BRANCH}"
 echo 'Pull successful' 1>&1
 
 # push to origin target_branch
