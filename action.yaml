@@ -16,7 +16,7 @@ inputs:
     required: true
 
   upstream_branch:
-    description: 'Branch to pull from, default = master'
+    description: 'Branch to sync from, default = master'
     required: true
     default: 'master'
 
