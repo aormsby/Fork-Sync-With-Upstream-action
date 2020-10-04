@@ -1,6 +1,6 @@
 name: 'Fork Sync With Upstream'
 author: 'Adam Ormsby (@aormsby)'
-description: 'Automatically updates fork with new commits from upstream repo, run on an unmodified branch (usually master)'
+description: 'Automatically updates fork with new commits from upstream repo, safest to run on an unmodified branch'
 
 branding:
   icon: refresh-ccw
