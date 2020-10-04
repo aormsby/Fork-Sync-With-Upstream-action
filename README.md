@@ -73,7 +73,7 @@ jobs:
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull (Fast-Forward) upstream changes
       id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v1
+      uses: aormsby/Fork-Sync-With-Upstream-action@v2.0
       with:
         upstream_repository: panr/hugo-theme-hello-friend
         upstream_branch: master
