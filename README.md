@@ -10,13 +10,17 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 
 ### Input Variables
 
-| Name                | Required?           | Default  | Example |
-| ------------------- |:------------------: | -------- | ----------
-| upstream_repository | :white_check_mark:  |          | aormsby/Fork-Sync-With-Upstream-action        |
-| upstream_branch     | :white_check_mark:  | 'master' | 'master'                                      |
-| target_branch       | :white_check_mark:  | 'master' | 'master'                                      |
-| github_token        |                     |          | ${{ secrets.GITHUB_TOKEN }}                   |
-| git_sync_command    |                     | 'pull'   | 'pull' or 'merge --ff-only' or 'reset --hard' |
+| Name                | Required?           | Default           | Example |
+| ------------------- |:------------------: | ----------------- | ----------
+| upstream_repository | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action        |
+| upstream_branch     | :white_check_mark:  | 'master'          | 'master'                                      |
+| target_branch       | :white_check_mark:  | 'master'          | 'master'                                      |
+| github_token        |                     |                   | ${{ secrets.GITHUB_TOKEN }}                   |
+| git_checkout_args   |                     | ''                | '--recurse-submodules'                        |
+| git_fetch_args      |                     | ''                | '--recurse-submodules'                        |
+| git_log_format_args |                     | '--prety=oneline' | '--graph --pretty=oneline'                    |
+| git_sync_command    |                     | 'pull'            | 'pull' or 'merge --ff-only' or 'reset --hard' |
+| git_push_args       |                     | ''                | '--force'                                     |
 
 For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
 
