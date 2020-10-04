@@ -25,10 +25,30 @@ inputs:
     required: true
     default: 'master'
 
+  git_checkout_extra_args:
+    description: 'Any extra args to pass to `git checkout` like --recurse-submodules (only used when current branch is not target_branch), default = ""'
+    required: false
+    default: ''
+
+  git_fetch_extra_args:
+    description: 'Any extra args to pass to `git fetch` like --recurse-submodules, default = ""'
+    required: false
+    default: ''
+
+  git_log_format_args:
+    description: 'How to print the list of new commits, default = --pretty=oneline'
+    required: false
+    default: '--pretty=oneline'
+
   git_sync_command:
     description: 'Which git command to use for sync (eg "merge --ff-only" or "reset --hard"), default = pull'
     required: false
     default: 'pull'
+
+  git_push_extra_args:
+    description: 'Any extra args to pass to `git push` like --force, default = ""'
+    required: false
+    default: ''
 
 outputs:
   has_new_commits:
