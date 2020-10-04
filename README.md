@@ -10,12 +10,17 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 
 ### Input Variables
 
-| Name                | Required?           | Default  | Example |
-| ------------------- |:------------------: | -------- | ----------
-| upstream_repository | :white_check_mark:  |          | aormsby/Fork-Sync-With-Upstream-action |
-| upstream_branch     | :white_check_mark:  | 'master' | 'master'                               |
-| target_branch       | :white_check_mark:  | 'master' | 'master'                               |
-| github_token        |                     |          | ${{ secrets.GITHUB_TOKEN }}            |
+| Name                | Required?           | Default           | Example |
+| ------------------- |:------------------: | ----------------- | ----------
+| upstream_repository | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action        |
+| upstream_branch     | :white_check_mark:  | 'master'          | 'master'                                      |
+| target_branch       | :white_check_mark:  | 'master'          | 'master'                                      |
+| github_token        |                     |                   | ${{ secrets.GITHUB_TOKEN }}                   |
+| git_checkout_args   |                     | ''                | '--recurse-submodules'                        |
+| git_fetch_args      |                     | ''                | '--recurse-submodules'                        |
+| git_log_format_args |                     | '--prety=oneline' | '--graph --pretty=oneline'                    |
+| git_sync_command    |                     | 'pull'            | 'pull' or 'merge --ff-only' or 'reset --hard' |
+| git_push_args       |                     | ''                | '--force'                                     |
 
 For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
 
@@ -31,7 +36,7 @@ Right now, the `main.js` script only exists to execute `upstream-sync.sh`. It's 
 2. Make sure the right local branch is checked out (`target_branch`)
 3. Add the upstream repo you listed
 4. Check if there are any new commits to sync (and prints any new commits as oneline statements)
-5. Pull from the upstream repo
+5. Sync from the upstream repo (generally by pulling)
 6. Push to the target branch of the target repo
 
 **Ta-da!**
@@ -58,14 +63,15 @@ jobs:
         ref: master
 
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
-    - name: Pull upstream changes
+    - name: Pull (Fast-Forward) upstream changes
       id: sync
       uses: aormsby/Fork-Sync-With-Upstream-action@v1
       with:
         upstream_repository: panr/hugo-theme-hello-friend
         upstream_branch: master
-        target_branch: master                       # optional
-        github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that requir authentication
+        target_branch: master
+        git_sync_command: pull --ff-only            # optional, defaults to pull
+        github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)
     - name: Check for new commits

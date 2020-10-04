@@ -1,6 +1,8 @@
 #!/bin/sh
 
 set -e
+# do not quote GIT_SYNC_COMMAND or GIT_*_ARGS. As they may contain
+# more than one argument.
 
 # fail if upstream_repository is not set in workflow
 if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
@@ -13,7 +15,7 @@ fi
 
 # ensure target_branch is checked out
 if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
-    git checkout "${INPUT_TARGET_BRANCH}"
+    git checkout ${INPUT_GIT_CHECKOUT_ARGS} "${INPUT_TARGET_BRANCH}"
     echo 'Target branch ' ${INPUT_TARGET_BRANCH} ' checked out' 1>&1
 fi
 
@@ -24,7 +26,7 @@ git remote add upstream "${UPSTREAM_REPO}"
 # git remote -v
 
 # check latest commit hashes for a match, exit if nothing to sync
-git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
+git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
 LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
 UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 
@@ -36,15 +38,16 @@ fi
 
 echo "::set-output name=has_new_commits::true"
 # display commits since last sync
-echo 'New commits being pulled:' 1>&1
-git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD --pretty=oneline
+echo 'New commits being synced:' 1>&1
+git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 
-# pull from upstream to target_branch
-echo 'Pulling...' 1>&1
-git pull upstream "${INPUT_UPSTREAM_BRANCH}"
-echo 'Pull successful' 1>&1
+# sync from upstream to target_branch
+echo 'Syncing...' 1>&1
+# sync_command examples: "pull", "merge --ff-only", "reset --hard"
+git ${INPUT_GIT_SYNC_COMMAND} upstream "${INPUT_UPSTREAM_BRANCH}"
+echo 'Sync successful' 1>&1
 
 # push to origin target_branch
 echo 'Pushing to target branch...' 1>&1
-git push origin "${INPUT_TARGET_BRANCH}"
+git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 echo 'Push successful' 1>&1
