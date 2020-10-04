@@ -16,14 +16,12 @@ inputs:
     required: true
 
   upstream_branch:
-    description: 'Branch to sync from, default = master'
+    description: 'Branch to sync from, e.g. => main, master, dev'
     required: true
-    default: 'master'
 
   target_branch:
-    description: 'Branch to push to, default = master'
+    description: 'Branch to push to, e.g. => main, master, prod'
     required: true
-    default: 'master'
 
   git_checkout_args:
     description: 'Any extra args to pass to `git checkout` like --recurse-submodules (only used when current branch is not target_branch), default = ""'
@@ -52,7 +50,7 @@ inputs:
 
 outputs:
   has_new_commits:
-    description: 'true when new commits were included in this sync.'
+    description: 'true when new commits were included in this sync'
 
 runs:
   using: 'node12'

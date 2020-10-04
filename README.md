@@ -6,23 +6,30 @@ An action for forks! Automatically sync a branch on your fork with the latest co
 
 ## How to Use
 
-As with any Github Action, you must include it in a workflow for your repo to run. Place the workflow at `.github/workflows/my-sync-workflow.yaml` in the default repo branch. For more help, see [Github Actions documentation](https://docs.github.com/en/actions).
+As with any Github Action, you must include it in a workflow for your repo to run. Place the workflow at `.github/workflows/my-sync-workflow.yaml` in the default repo branch (required for scheduled jobs at this time). For more help, see [Github Actions documentation](https://docs.github.com/en/actions).
 
 ### Input Variables
+
+#### Basic Use
 
 | Name                | Required?           | Default           | Example |
 | ------------------- |:------------------: | ----------------- | ----------
 | upstream_repository | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action        |
-| upstream_branch     | :white_check_mark:  | 'master'          | 'master'                                      |
-| target_branch       | :white_check_mark:  | 'master'          | 'master'                                      |
+| upstream_branch     | :white_check_mark:  |                   | 'master', 'main', 'dev'                                 |
+| target_branch       | :white_check_mark:  |                   | 'master', 'main', 'prod'                                |
 | github_token        |                     |                   | ${{ secrets.GITHUB_TOKEN }}                   |
-| git_checkout_args   |                     | ''                | '--recurse-submodules'                        |
-| git_fetch_args      |                     | ''                | '--recurse-submodules'                        |
-| git_log_format_args |                     | '--prety=oneline' | '--graph --pretty=oneline'                    |
-| git_sync_command    |                     | 'pull'            | 'pull' or 'merge --ff-only' or 'reset --hard' |
-| git_push_args       |                     | ''                | '--force'                                     |
 
 For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
+
+#### Advanced Use (all optional args)
+
+| Name                | Required?           | Default           | Example |
+| ------------------- |:------------------: | ----------------- | ----------
+| git_checkout_args   |                     |                   | '--recurse-submodules'                        |
+| git_fetch_args      |                     |                   | '--tags'                        |
+| git_log_format_args |                     | '--pretty=oneline' | '--graph --pretty=oneline'                     |
+| git_sync_command    |                     | 'pull'            | 'pull' or 'merge --ff-only' or 'reset --hard' |
+| git_push_args       |                     |                   | '--force'                                     |
 
 ### Output Variables
 
@@ -61,6 +68,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: master
+        # submodules: 'recursive'     ### possibly needed in your situation
 
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull (Fast-Forward) upstream changes
@@ -70,7 +78,7 @@ jobs:
         upstream_repository: panr/hugo-theme-hello-friend
         upstream_branch: master
         target_branch: master
-        git_sync_command: pull --ff-only            # optional, defaults to pull
+        git_sync_command: pull --ff-only            # optional arg use, defaults to pull
         github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)
