@@ -13,8 +13,8 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 | Name                    | Required?           | Default           | Example |
 | ----------------------- |:------------------: | ----------------- | ----------
 | upstream_repository     | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action        |
-| upstream_branch         | :white_check_mark:  | 'master'          | 'master'                                      |
-| target_branch           | :white_check_mark:  | 'master'          | 'master'                                      |
+| upstream_branch         |                     | 'main'            | 'master'                                      |
+| target_branch           |                     | 'main'            | 'main'                                        |
 | github_token            |                     |                   | ${{ secrets.GITHUB_TOKEN }}                   |
 | git_checkout_extra_args |                     | ''                | '--recurse-submodules'                        |
 | git_fetch_extra_args    |                     | ''                | '--recurse-submodules'                        |
@@ -53,14 +53,14 @@ on:
 jobs:
   sync_with_upstream:
     runs-on: ubuntu-latest
-    name: Sync master with upstream latest
+    name: Sync main with upstream latest
 
     steps:
     # Step 1: run a standard checkout action, provided by github
-    - name: Checkout master
+    - name: Checkout main
       uses: actions/checkout@v2
       with:
-        ref: master
+        ref: main
 
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull (Fast-Forward) upstream changes
@@ -68,8 +68,8 @@ jobs:
       uses: aormsby/Fork-Sync-With-Upstream-action@v1
       with:
         upstream_repository: panr/hugo-theme-hello-friend
-        upstream_branch: master
-        target_branch: master
+        upstream_branch: master                     # optional, defaults to main
+        target_branch: main                         # optional, defaults to main
         git_sync_command: pull --ff-only            # optional, defaults to pull
         github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
 

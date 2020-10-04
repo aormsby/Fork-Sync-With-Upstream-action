@@ -1,6 +1,6 @@
 name: 'Fork Sync With Upstream'
 author: 'Adam Ormsby (@aormsby)'
-description: 'Automatically updates fork with new commits from upstream repo, run on an unmodified branch (usually master)'
+description: 'Automatically updates fork with new commits from upstream repo, run on an unmodified branch (usually main)'
 
 branding:
   icon: refresh-ccw
@@ -16,14 +16,14 @@ inputs:
     required: true
 
   upstream_branch:
-    description: 'Branch to sync from, default = master'
-    required: true
-    default: 'master'
+    description: 'Branch to sync from, default = main'
+    required: false
+    default: 'main'
 
   target_branch:
-    description: 'Branch to push to, default = master'
-    required: true
-    default: 'master'
+    description: 'Branch to push to, default = main'
+    required: false
+    default: 'main'
 
   git_checkout_extra_args:
     description: 'Any extra args to pass to `git checkout` like --recurse-submodules (only used when current branch is not target_branch), default = ""'
