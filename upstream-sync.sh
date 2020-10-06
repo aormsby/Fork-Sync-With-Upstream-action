@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-# do not quote GIT_SYNC_COMMAND or GIT_*_ARGS. As they may contain
+# do not quote GIT_PULL_ARGS or GIT_*_ARGS. As they may contain
 # more than one argument.
 
 # fail if upstream_repository is not set in workflow
@@ -43,8 +43,8 @@ git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT
 
 # sync from upstream to target_branch
 echo 'Syncing...' 1>&1
-# sync_command examples: "pull", "merge --ff-only", "reset --hard"
-git ${INPUT_GIT_SYNC_COMMAND} upstream "${INPUT_UPSTREAM_BRANCH}"
+# pull_args examples: "--ff-only", "--tags"
+git pull ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
 echo 'Sync successful' 1>&1
 
 # push to origin target_branch

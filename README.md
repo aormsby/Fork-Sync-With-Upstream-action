@@ -14,22 +14,22 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 
 | Name                | Required?           | Default           | Example |
 | ------------------- |:------------------: | ----------------- | ----------
-| upstream_repository | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action        |
-| upstream_branch     | :white_check_mark:  |                   | 'master', 'main', 'dev'                                 |
-| target_branch       | :white_check_mark:  |                   | 'master', 'main', 'prod'                                |
-| github_token        |                     |                   | ${{ secrets.GITHUB_TOKEN }}                   |
+| upstream_repository | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action  |
+| upstream_branch     | :white_check_mark:  |                   | 'master', 'main', 'dev'                 |
+| target_branch       | :white_check_mark:  |                   | 'master', 'main', 'prod'                |
+| github_token        |                     |                   | ${{ secrets.GITHUB_TOKEN }}             |
 
 For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
 
 #### Advanced Use (all optional args)
 
-| Name                | Required?           | Default           | Example |
-| ------------------- |:------------------: | ----------------- | ----------
-| git_checkout_args   |                     |                   | '--recurse-submodules'                        |
-| git_fetch_args      |                     |                   | '--tags'                        |
-| git_log_format_args |                     | '--pretty=oneline' | '--graph --pretty=oneline'                     |
-| git_sync_command    |                     | 'pull'            | 'pull' or 'merge --ff-only' or 'reset --hard' |
-| git_push_args       |                     |                   | '--force'                                     |
+| Name                | Required?           | Default            | Example |
+| ------------------- |:------------------: | ------------------ | ----------
+| git_checkout_args   |                     |                    | '--recurse-submodules'          |
+| git_fetch_args      |                     |                    | '--tags'                        |
+| git_log_format_args |                     | '--pretty=oneline' | '--graph --pretty=oneline'      |
+| git_pull_args       |                     | 'pull'             | '--ff-only'                     |
+| git_push_args       |                     |                    | '--force'                       |
 
 ### Output Variables
 
@@ -78,7 +78,7 @@ jobs:
         upstream_repository: panr/hugo-theme-hello-friend
         upstream_branch: master
         target_branch: master
-        git_sync_command: pull --ff-only            # optional arg use, defaults to pull
+        git_pull_args: --ff-only                    # optional arg use, defaults to simple 'pull'
         github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)

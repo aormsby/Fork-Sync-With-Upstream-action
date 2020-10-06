@@ -38,10 +38,10 @@ inputs:
     required: false
     default: '--pretty=oneline'
 
-  git_sync_command:
-    description: 'Which git command to use for sync (eg "merge --ff-only" or "reset --hard"), default = pull'
+  git_pull_args:
+    description: 'Any extra args to pass to `git push` like --ff-only or --tags, default = ""'
     required: false
-    default: 'pull'
+    default: ''
 
   git_push_args:
     description: 'Any extra args to pass to `git push` like --force, default = ""'
