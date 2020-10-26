@@ -8,8 +8,8 @@ set -e
 config_git_user() {
     if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
         # store original user config for reset later
-        ORIG_USER=git config --global --get user.name
-        ORIG_EMAIL=git config --global --get user.email
+        ORIG_USER=$(git config --global --get user.name)
+        ORIG_EMAIL=$(git config --global --get user.email)
 
         git config --global user.name "${INPUT_GIT_EMAIL}"
         git config --global user.email "${INPUT_GIT_USER}"
