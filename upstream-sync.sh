@@ -5,16 +5,31 @@ set -e
 # more than one argument.
 
 # set user credentials in git config
-if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
-    # store original for reset later
-    ORIG_USER=git config --global --get user.name
-    ORIG_EMAIL=git config --global --get user.email
+config_git_user() {
+    if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
+        # store original user config for reset later
+        ORIG_USER=git config --global --get user.name
+        ORIG_EMAIL=git config --global --get user.email
 
-    git config --global user.name "${INPUT_GIT_EMAIL}"
-    git config --global user.email "${INPUT_GIT_USER}"
+        git config --global user.name "${INPUT_GIT_EMAIL}"
+        git config --global user.email "${INPUT_GIT_USER}"
 
-    echo 'Git user and email credentials set for action' 1>&1
-fi
+        echo 'Git user and email credentials set for action' 1>&1
+    fi
+}
+
+# reset user credentials to originals
+reset_git_user() {
+    if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
+        git config --global user.name "${ORIG_USER}"
+        git config --global user.email "${ORIG_EMAIL}"
+        echo 'Git user name and email credentials reset to original state' 1>&1
+    fi
+}
+
+### functions above ###
+### --------------- ###
+### script below    ###
 
 # fail if upstream_repository is not set in workflow
 if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
@@ -24,6 +39,9 @@ if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
 else
     UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
 fi
+
+# set user credentials in git config
+config_git_user
 
 # ensure target_branch is checked out
 if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
@@ -45,6 +63,7 @@ UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 if [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
     echo "::set-output name=has_new_commits::false"
     echo 'No new commits to sync, exiting' 1>&1
+    reset_git_user
     exit 0
 fi
 
@@ -64,11 +83,5 @@ echo 'Pushing to target branch...' 1>&1
 git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 echo 'Push successful' 1>&1
 
-
 # reset user credentials for future actions
-if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
-    git config --global user.name "${ORIG_USER}"
-    git config --global user.email "${ORIG_EMAIL}"
-    
-    echo 'Git user name and email credentials reset to original state' 1>&1
-fi
+reset_git_user
