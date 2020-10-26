@@ -23,13 +23,18 @@ For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is
 
 #### Advanced Use (all optional args)
 
-| Name                | Required?           | Default            | Example |
-| ------------------- |:------------------: | ------------------ | ----------
-| git_checkout_args   |                     |                    | '--recurse-submodules'          |
-| git_fetch_args      |                     |                    | '--tags'                        |
-| git_log_format_args |                     | '--pretty=oneline' | '--graph --pretty=oneline'      |
-| git_pull_args       |                     | 'pull'             | '--ff-only'                     |
-| git_push_args       |                     |                    | '--force'                       |
+| Name                   | Required?           | Default             | Example |
+| ---------------------- |:------------------: | ------------------- | ----------
+| git_checkout_args      |                     |                     | '--recurse-submodules'     |
+| git_fetch_args         |                     |                     | '--tags'                   |
+| git_log_format_args    |                     | '--pretty=oneline'  | '--graph --pretty=oneline' |
+| git_pull_args          |                     | 'pull'              | '--ff-only'                |
+| git_push_args          |                     |                     | '--force'                  |
+| config_git_credentials |                     | true                |                            |
+| git_user               |                     | 'Action - Fork Sync'|                            |
+| git_email              |                     | 'action@github.com' |                            |
+
+`git_user` and `git_email` are set to conventional values during the action to prevent git command failure. They are automatically reset on action complete. You may pass custom values to these inputs if you need to. Set `config_git_credentials` to 'false' to skip this step and use existing credentials.
 
 ### Output Variables
 

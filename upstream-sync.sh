@@ -4,6 +4,18 @@ set -e
 # do not quote GIT_PULL_ARGS or GIT_*_ARGS. As they may contain
 # more than one argument.
 
+# set user credentials in git config
+if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
+    # store original for reset later
+    ORIG_USER=git config --global --get user.name
+    ORIG_EMAIL=git config --global --get user.email
+
+    git config --global user.name "${INPUT_GIT_EMAIL}"
+    git config --global user.email "${INPUT_GIT_USER}"
+
+    echo 'Git user and email credentials set for action' 1>&1
+fi
+
 # fail if upstream_repository is not set in workflow
 if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
     echo 'Workflow missing input value for "upstream_repository"' 1>&2
@@ -51,3 +63,12 @@ echo 'Sync successful' 1>&1
 echo 'Pushing to target branch...' 1>&1
 git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 echo 'Push successful' 1>&1
+
+
+# reset user credentials for future actions
+if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
+    git config --global user.name "${ORIG_USER}"
+    git config --global user.email "${ORIG_EMAIL}"
+    
+    echo 'Git user name and email credentials reset to original state' 1>&1
+fi

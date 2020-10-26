@@ -48,6 +48,21 @@ inputs:
     required: false
     default: ''
 
+  config_git_credentials:
+    description: 'By default, user and email info are set globally on action run. Set "false" to skip step and use existing credentials.'
+    required: false
+    default: true
+
+  git_user:
+    description: 'Git user credentials for sigining commit'
+    required: false
+    default: 'Action - Fork Sync'
+
+  git_email:
+    description: 'Git email credentials for sigining commit'
+    required: false
+    default: 'action@github.com'
+
 outputs:
   has_new_commits:
     description: 'true when new commits were included in this sync'
