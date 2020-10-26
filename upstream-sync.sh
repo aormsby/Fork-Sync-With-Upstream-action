@@ -8,17 +8,17 @@ set -e
 config_git_user() {
     if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
         # store original data if there is any
-        if [ -z $(git config --global --get user.name) ]; then
-            ORIG_USER=$(git config --global --get user.name)
-        else
-            ORIG_USER=""
-        fi
+        # if [ -z $(git config --global --get user.name) ]; then
+        #     ORIG_USER=$(git config --global --get user.name)
+        # else
+        #     ORIG_USER=""
+        # fi
 
-        if [ -z $(git config --global --get user.email) ]; then
-            ORIG_EMAIL=$(git config --global --get user.email)
-        else
-            ORIG_EMAIL=""
-        fi
+        # if [ -z $(git config --global --get user.email) ]; then
+        #     ORIG_EMAIL=$(git config --global --get user.email)
+        # else
+        #     ORIG_EMAIL=""
+        # fi
 
         git config --global user.name "${INPUT_GIT_EMAIL}"
         git config --global user.email "${INPUT_GIT_USER}"
@@ -30,8 +30,8 @@ config_git_user() {
 # reset user credentials to originals
 reset_git_user() {
     if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
-        git config --global user.name "${ORIG_USER}"
-        git config --global user.email "${ORIG_EMAIL}"
+        # git config --global user.name "${ORIG_USER}"
+        # git config --global user.email "${ORIG_EMAIL}"
         echo 'Git user name and email credentials reset to original state' 1>&1
     fi
 }
