@@ -88,7 +88,7 @@ jobs:
 
     # Step 3: Display a message if 'sync' step had new commits (simple test)
     - name: Check for new commits
-      if: steps.sync.outputs.has-new-commits
+      if: steps.sync.outputs.has_new_commits
       run: echo "There were new commits."
 
     # Step 4: Print a helpful timestamp for your records (not required)
