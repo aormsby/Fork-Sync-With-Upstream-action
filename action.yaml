@@ -54,14 +54,19 @@ inputs:
     default: true
 
   git_user:
-    description: 'Git user credentials for sigining commit'
+    description: 'Git user credentials for sigining commit (set to "null" for no credential changes)'
     required: false
     default: 'Action - Fork Sync'
 
   git_email:
-    description: 'Git email credentials for sigining commit'
+    description: 'Git email credentials for sigining commit (set to "null" for no credential changes)'
     required: false
     default: 'action@github.com'
+  
+  git_pull_config:
+    description: 'Git config for "pull.rebase" (standard default to false, set to "null" for no config)'
+    required: false
+    default: 'false'
 
 outputs:
   has_new_commits:

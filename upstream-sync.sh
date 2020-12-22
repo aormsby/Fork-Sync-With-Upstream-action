@@ -5,21 +5,31 @@ set -e
 # more than one argument.
 
 # set user credentials in git config
-config_git_user() {
+config_git() {
     if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
         # store original user config for reset later
         ORIG_USER=$(git config --global --get --default="null" user.name)
         ORIG_EMAIL=$(git config --global --get --default="null" user.email)
+        ORIG_PULL_CONFIG=$(git config --global --get --default="null" pull.rebase)
 
-        git config --global user.name "${INPUT_GIT_EMAIL}"
-        git config --global user.email "${INPUT_GIT_USER}"
+        if [ "${INPUT_GIT_EMAIL}" != "null" ]; then
+            git config --global user.name "${INPUT_GIT_EMAIL}"
+        fi
+
+        if [ "${INPUT_GIT_USER}" != "null" ]; then
+            git config --global user.email "${INPUT_GIT_USER}"
+        fi
+
+        if [ "${INPUT_GIT_PULL_CONFIG}" != "null" ]; then
+            git config --global pull.rebase "${INPUT_GIT_PULL_CONFIG}"
+        fi
 
         echo 'Git user and email credentials set for action' 1>&1
     fi
 }
 
 # reset user credentials to originals
-reset_git_user() {
+reset_git() {
     if [ "${INPUT_CONFIG_GIT_CREDENTIALS}" = true ]; then
     
         if [ "${ORIG_USER}" == "null" ]; then
@@ -29,12 +39,19 @@ reset_git_user() {
         fi
 
         if [ "${ORIG_EMAIL}" == "null" ]; then
-            git config --global --unset user.name
+            git config --global --unset user.email
         else
             git config --global user.email "${ORIG_EMAIL}"
         fi
 
+        if [ "${ORIG_PULL_CONFIG}" == "null" ]; then
+            git config --global --unset pull.rebase
+        else
+            git config --global pull.rebase "${ORIG_PULL_CONFIG}"
+        fi
+
         echo 'Git user name and email credentials reset to original state' 1>&1
+        echo 'Git pull config reset to original state' 1>&1
     fi
 }
 
@@ -52,7 +69,7 @@ else
 fi
 
 # set user credentials in git config
-config_git_user
+config_git
 
 # ensure target_branch is checked out
 if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
@@ -95,4 +112,4 @@ git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
 echo 'Push successful' 1>&1
 
 # reset user credentials for future actions
-reset_git_user
+reset_git
