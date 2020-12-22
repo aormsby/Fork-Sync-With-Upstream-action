@@ -20,8 +20,8 @@ config_git() {
             git config --global user.email "${INPUT_GIT_USER}"
         fi
 
-        if [ "${INPUT_GIT_PULL_CONFIG}" != "null" ]; then
-            git config --global pull.rebase "${INPUT_GIT_PULL_CONFIG}"
+        if [ "${INPUT_GIT_PULL_REBASE_CONFIG}" != "null" ]; then
+            git config --global pull.rebase "${INPUT_GIT_PULL_REBASE_CONFIG}"
         fi
 
         echo 'Git user and email credentials set for action' 1>&1

@@ -63,7 +63,7 @@ inputs:
     required: false
     default: 'action@github.com'
   
-  git_pull_config:
+  git_pull_rebase_config:
     description: 'Git config for "pull.rebase" (standard default to false, set to "null" for no config)'
     required: false
     default: 'false'
