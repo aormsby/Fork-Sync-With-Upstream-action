@@ -28,19 +28,19 @@ config_git() {
 
 # reset user credentials to originals
 reset_git() {
-    if [ "${ORIG_USER}" == "null" ]; then
+    if [ "${ORIG_USER}" = "null" ]; then
         git config --global --unset user.name
     else
         git config --global user.name "${ORIG_USER}"
     fi
 
-    if [ "${ORIG_EMAIL}" == "null" ]; then
+    if [ "${ORIG_EMAIL}" = "null" ]; then
         git config --global --unset user.email
     else
         git config --global user.email "${ORIG_EMAIL}"
     fi
 
-    if [ "${ORIG_PULL_CONFIG}" == "null" ]; then
+    if [ "${ORIG_PULL_CONFIG}" = "null" ]; then
         git config --global --unset pull.rebase
     else
         git config --global pull.rebase "${ORIG_PULL_CONFIG}"
