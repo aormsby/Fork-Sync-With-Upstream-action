@@ -86,7 +86,7 @@ UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 if [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
     echo "::set-output name=has_new_commits::false"
     echo 'No new commits to sync, exiting' 1>&1
-    reset_git_user
+    reset_git
     exit 0
 fi
 
