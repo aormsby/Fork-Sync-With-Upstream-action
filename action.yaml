@@ -47,12 +47,7 @@ inputs:
     description: 'Any extra args to pass to `git push` like --force, default = ""'
     required: false
     default: ''
-
-  config_git_credentials:
-    description: 'By default, user and email info are set globally on action run. Set "false" to skip step and use existing credentials.'
-    required: false
-    default: true
-
+  
   git_user:
     description: 'Git user credentials for sigining commit (set to "null" for no credential changes)'
     required: false
