@@ -11,12 +11,12 @@ config_git() {
     ORIG_EMAIL=$(git config --global --get --default="null" user.email)
     ORIG_PULL_CONFIG=$(git config --global --get --default="null" pull.rebase)
 
-    if [ "${INPUT_GIT_EMAIL}" != "null" ]; then
-        git config --global user.name "${INPUT_GIT_EMAIL}"
+    if [ "${INPUT_GIT_USER}" != "null" ]; then
+        git config --global user.name "${INPUT_GIT_USER}"
     fi
 
-    if [ "${INPUT_GIT_USER}" != "null" ]; then
-        git config --global user.email "${INPUT_GIT_USER}"
+    if [ "${INPUT_GIT_EMAIL}" != "null" ]; then
+        git config --global user.email "${INPUT_GIT_EMAIL}"
     fi
 
     if [ "${INPUT_GIT_PULL_REBASE_CONFIG}" != "null" ]; then
