@@ -39,7 +39,7 @@ inputs:
     default: '--pretty=oneline'
 
   git_pull_args:
-    description: 'Any extra args to pass to `git push` like --ff-only or --tags, default = ""'
+    description: 'Any extra args to pass to `git pull` like --ff-only or --tags, default = ""'
     required: false
     default: ''
 
