@@ -83,10 +83,15 @@ git remote set-url --push upstream DISABLE
 # check remotes in case of error
 git remote -v
 
+echo 'checkout to master starting' 1>&1
+git checkout master git merge upstream/master
+git status
+echo 'checkout to master complete' 1>&1
+
 # echo 'fetch starting' 1>&1
-# # check latest commit hashes for a match, exit if nothing to sync
+# # # check latest commit hashes for a match, exit if nothing to sync
 # # git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
-# git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
+# # git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
 # echo 'fetch complete' 1>&1
 
 # LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
