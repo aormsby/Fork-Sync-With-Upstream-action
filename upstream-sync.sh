@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
-UPSTREAM_REPO="https://stewart:ca4241b64ab50d8774bbcfe2b69ca5321175378d@github.com/ovotech/corgi-gi.git"
+UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
 
 # set upstream to upstream_repository
 git remote add upstream "${UPSTREAM_REPO}"
