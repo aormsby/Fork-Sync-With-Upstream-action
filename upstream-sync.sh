@@ -78,41 +78,42 @@ git remote add origin "${DOWNSTREAM_REPO}"
 
 # set upstream to upstream_repository
 git remote add upstream "${UPSTREAM_REPO}"
+git remote set-url --push upstream DISABLE
 
 # check remotes in case of error
 git remote -v
 
-echo 'fetch starting' 1>&1
-# check latest commit hashes for a match, exit if nothing to sync
-# git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
-git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
-echo 'fetch complete' 1>&1
+# echo 'fetch starting' 1>&1
+# # check latest commit hashes for a match, exit if nothing to sync
+# # git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+# git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
+# echo 'fetch complete' 1>&1
 
-LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
-UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
+# LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
+# UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 
-if [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
-    echo "::set-output name=has_new_commits::false"
-    echo 'No new commits to sync, exiting' 1>&1
-    reset_git
-    exit 0
-fi
+# if [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
+#     echo "::set-output name=has_new_commits::false"
+#     echo 'No new commits to sync, exiting' 1>&1
+#     reset_git
+#     exit 0
+# fi
 
-echo "::set-output name=has_new_commits::true"
-# display commits since last sync
-echo 'New commits being synced:' 1>&1
-git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
+# echo "::set-output name=has_new_commits::true"
+# # display commits since last sync
+# echo 'New commits being synced:' 1>&1
+# git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 
-# sync from upstream to target_branch
-echo 'Syncing...' 1>&1
-# pull_args examples: "--ff-only", "--tags"
-git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
-echo 'Sync successful' 1>&1
+# # sync from upstream to target_branch
+# echo 'Syncing...' 1>&1
+# # pull_args examples: "--ff-only", "--tags"
+# git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+# echo 'Sync successful' 1>&1
 
-# push to origin target_branch
-echo 'Pushing to target branch...' 1>&1
-git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
-echo 'Push successful' 1>&1
+# # push to origin target_branch
+# echo 'Pushing to target branch...' 1>&1
+# git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
+# echo 'Push successful' 1>&1
 
 # reset user credentials for future actions
 reset_git
