@@ -68,10 +68,10 @@ fi
 config_git
 
 # ensure target_branch is checked out
-if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
+# if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
     git checkout ${INPUT_GIT_CHECKOUT_ARGS} "${INPUT_TARGET_BRANCH}"
     echo 'Target branch ' ${INPUT_TARGET_BRANCH} ' checked out' 1>&1
-fi
+# fi
 
 git remote rm origin
 git remote add origin "${DOWNSTREAM_REPO}"
