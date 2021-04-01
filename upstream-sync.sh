@@ -72,7 +72,7 @@ if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
     echo 'Target branch ' ${INPUT_TARGET_BRANCH} ' checked out' 1>&1
 fi
 
-git clone ${UPSTREAM_REPO} --branch master tmp
+# git clone ${UPSTREAM_REPO} --branch master tmp
 
 # set upstream to upstream_repository
 git remote add upstream "${UPSTREAM_REPO}"
