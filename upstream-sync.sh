@@ -23,8 +23,6 @@ config_git() {
         git config --global pull.rebase "${INPUT_GIT_PULL_REBASE_CONFIG}"
     fi
 
-    ssh-add ~/.ssh/"${INPUT_GITHUB_TOKEN}"
-
     echo 'Git user and email credentials set for action' 1>&1
 }
 
@@ -63,6 +61,7 @@ if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
     exit 1
 else
     UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
+    DOWNSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/kantanhq/corgi-gi.git"
 fi
 
 # set user credentials in git config
@@ -74,7 +73,8 @@ if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
     echo 'Target branch ' ${INPUT_TARGET_BRANCH} ' checked out' 1>&1
 fi
 
-# git clone ${UPSTREAM_REPO} --branch master tmp
+git remote rm origin
+git remote add origin "${DOWNSTREAM_REPO}"
 
 # set upstream to upstream_repository
 git remote add upstream "${UPSTREAM_REPO}"
