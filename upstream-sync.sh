@@ -80,8 +80,11 @@ git remote add upstream "${UPSTREAM_REPO}"
 # check remotes in case of error
 git remote -v
 
+echo 'fetch starting' 1>&1
 # check latest commit hashes for a match, exit if nothing to sync
 git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+echo 'fetch complete' 1>&1
+
 LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
 UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
 
