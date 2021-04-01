@@ -72,12 +72,13 @@ if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
     echo 'Target branch ' ${INPUT_TARGET_BRANCH} ' checked out' 1>&1
 fi
 
+git clone ${UPSTREAM_REPO} --branch master tmp
+
 # set upstream to upstream_repository
-echo 'adding remote upstream ' ${UPSTREAM_REPO} ' ' 1>&1
 git remote add upstream "${UPSTREAM_REPO}"
 
 # check remotes in case of error
-# git remote -v
+git remote -v
 
 # check latest commit hashes for a match, exit if nothing to sync
 git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
