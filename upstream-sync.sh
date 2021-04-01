@@ -23,6 +23,8 @@ config_git() {
         git config --global pull.rebase "${INPUT_GIT_PULL_REBASE_CONFIG}"
     fi
 
+    ssh-add ~/.ssh/"${INPUT_GITHUB_TOKEN}"
+
     echo 'Git user and email credentials set for action' 1>&1
 }
 
@@ -82,7 +84,8 @@ git remote -v
 
 echo 'fetch starting' 1>&1
 # check latest commit hashes for a match, exit if nothing to sync
-git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+# git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+git fetch upstream "${INPUT_UPSTREAM_BRANCH}"
 echo 'fetch complete' 1>&1
 
 LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
