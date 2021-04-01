@@ -73,6 +73,7 @@ if [ $(git branch --show-current) != "${INPUT_TARGET_BRANCH}" ]; then
 fi
 
 # set upstream to upstream_repository
+echo 'adding remote upstream ' ${UPSTREAM_REPO} ' ' 1>&1
 git remote add upstream "${UPSTREAM_REPO}"
 
 # check remotes in case of error
