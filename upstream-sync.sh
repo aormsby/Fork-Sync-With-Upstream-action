@@ -60,7 +60,8 @@ if [ -z "${INPUT_UPSTREAM_REPOSITORY}" ]; then
     echo '      example: "upstream_repository: aormsby/fork-sync-with-upstream-action"' 1>&2
     exit 1
 else
-    UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
+    UPSTREAM_REPO="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@${INPUT_DOMAIN}/${INPUT_UPSTREAM_REPOSITORY}.git"
+    echo "Upstream: $UPSTREAM_REPO"
 fi
 
 # set user credentials in git config
