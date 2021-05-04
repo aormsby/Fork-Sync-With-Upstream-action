@@ -97,7 +97,11 @@ git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT
 # sync from upstream to target_branch
 echo 'Syncing...' 1>&1
 # pull_args examples: "--ff-only", "--tags"
-git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+if [ -n ${INPUT_GIT_RESET} ]; then
+    git reset --hard upstream/"${INPUT_UPSTREAM_BRANCH}"
+else
+    git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
+fi
 echo 'Sync successful' 1>&1
 
 # push to origin target_branch

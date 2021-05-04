@@ -63,6 +63,11 @@ inputs:
     required: false
     default: 'false'
 
+  git_reset:
+    description: 'Set to run "git fetch" + "git reset" instead of git pull. Used for branchs that can be rewound/force pushed.'
+    required: false
+    default: ''
+
 outputs:
   has_new_commits:
     description: 'true when new commits were included in this sync'
