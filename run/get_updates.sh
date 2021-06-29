@@ -21,11 +21,9 @@ check_for_updates() {
 
     # early exit if no new commits or something failed
     if [ "${HAS_NEW_COMMITS}" = false ]; then
-        echo_new_commit_list
+        exit_no_commits
     elif [ "${HAS_NEW_COMMITS}" = "error" ]; then
         exit_error
-    else
-        exit_no_commits
     fi
 }
 
@@ -44,7 +42,7 @@ exit_error() {
 }
 
 # display new commits since last sync
-echo_new_commit_list() {
+output_new_commit_list() {
     echo 'New commits to be synced:' 1>&1
     git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
@@ -57,6 +55,3 @@ sync_new_commits() {
     git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}" || exit 1
     echo 'Sync successful' 1>&1
 }
-
-# run_tests() {
-# }
