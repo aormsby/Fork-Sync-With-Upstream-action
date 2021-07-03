@@ -62,7 +62,7 @@ These values are reset at the end of the action step. They can be modified as in
 
 This will allow divergent histories to be merged, but be careful with the results. It's very likely there will be conflicts in any merge unless you know *for sure* there won't be, so your mileage may vary here.
 
-**If you need to overwrite data for some reason** => `git_pull_args: '-s recursive -Xtheirs'` (or `xOurs`)
+**If you need to overwrite data for some reason** => `git_pull_args: '-s recursive -Xtheirs'` (or `-XOurs`)
 
 Again, not recommended. But if you don't care about losing some data, just choose one side or the other. I actually haven't tested this, but I think it should go through. *Do you feel lucky, punk?*
 
