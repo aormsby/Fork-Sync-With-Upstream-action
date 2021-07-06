@@ -3,6 +3,8 @@
 # check latest commit hashes for a match, exit if nothing to sync
 
 check_for_updates() {
+    echo "Checking for new commits on upstream branch."
+
     # get latest commit hashes from local and remote branches for comparison
     git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
     LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
@@ -28,14 +30,14 @@ check_for_updates() {
 }
 
 exit_no_commits() {
-    echo 'No new commits to sync, exiting with cleanup' 1>&1
+    echo 'No new commits to sync, exiting with cleanup\n' 1>&1
     # TODO: set up way to reset git config at any exit (or point of failure)
     # reset_git
     exit 0
 }
 
 exit_error() {
-    echo 'Error checking for new commits - please check your inputs' 1>&1
+    echo 'There was an error checking for new commits - please check your inputs\n' 1>&1
     # TODO: set up way to reset git config at any exit (or point of failure)
     # reset_git
     exit 1
@@ -43,15 +45,15 @@ exit_error() {
 
 # display new commits since last sync
 output_new_commit_list() {
-    echo 'New commits to be synced:' 1>&1
+    echo 'New commits since last sync:' 1>&1
     git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
 # sync from upstream to target_branch
 sync_new_commits() {
-    echo 'Syncing...' 1>&1
+    echo 'Syncing new commits...' 1>&1
     # pull_args examples: "--ff-only", "--tags"
     # TODO: handle fail better along with all other fails
     git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}" || exit 1
-    echo 'Sync successful' 1>&1
+    echo 'SUCCESS\n' 1>&1
 }

@@ -16,6 +16,7 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     INPUT_GITHUB_TOKEN="$(cat ../test_key.txt)"
     INPUT_UPSTREAM_BRANCH="main"
     INPUT_UPSTREAM_REPOSITORY="aoAppDev/action-test-access-repo"
+    # TODO: call me (target_)sync_branch
     INPUT_TARGET_BRANCH="master"
     # TODO: perhaps make args input use location more clear
     INPUT_GIT_CHECKOUT_ARGS=""
@@ -34,9 +35,12 @@ fi
 
 UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
 
+# Fork to live action or test mode based on INPUT_TEST_MODE flag
 if [ "${INPUT_TEST_MODE}" = true ]; then
+    echo "Running TESTS...\n"
     . ./run_tests.sh
 else
+    echo "Running ACTION...\n"
     . ./run_action.sh
 fi
 

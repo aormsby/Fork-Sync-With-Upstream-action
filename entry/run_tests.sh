@@ -12,5 +12,3 @@ cleanup_test_dir
 
 . ../test/verify_git_config.sh
 test_config_git
-
-# TODO: exit on test fail? easier to find fail points tha way?
