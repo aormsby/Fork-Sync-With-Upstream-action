@@ -1,9 +1,12 @@
 #!/bin/sh
 
+# source script to handle message output
+. ../util/output.sh
+
 # TODO: SPIKE on 'live' tests through the action runner
 # TODO: set -e?? -- no, please handle all errors && exits
 if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
-    echo "Running in LOCAL MODE..."
+    write_out "b" "\nRunning in LOCAL MODE..."
 
     # TODO: set test mode in the yaml workflow
     # set test mode here
@@ -37,10 +40,10 @@ UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${IN
 
 # Fork to live action or test mode based on INPUT_TEST_MODE flag
 if [ "${INPUT_TEST_MODE}" = true ]; then
-    echo "Running TESTS...\n"
+    write_out "b" "Running TESTS...\n"
     . ./run_tests.sh
 else
-    echo "Running ACTION...\n"
+    write_out "b" "Running ACTION...\n"
     . ./run_action.sh
 fi
 

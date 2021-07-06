@@ -2,10 +2,10 @@
 
 # called by run_action.sh
 config_for_action() {
-    echo "Setting git config from input vars."
+    write_out -1 "Setting git config from input vars."
     get_current_user_config
     set_git_config "${INPUT_GIT_CONFIG_USER}" "${INPUT_GIT_CONFIG_EMAIL}" "${INPUT_GIT_CONFIG_PULL_REBASE}"
-    echo "SUCCESS\n"
+    write_out "g" "SUCCESS\n"
 }
 
 # store current user config data for reset after action run
@@ -24,7 +24,7 @@ set_git_config() {
 
 # reset to original user config values
 reset_git_config() {
-    echo "Resetting git config to previous settings."
+    write_out -1 "Resetting git config to previous settings."
     
     if [ "${CURRENT_USER}" = "null" ]; then
         git config --unset user.name
@@ -44,5 +44,5 @@ reset_git_config() {
         git config pull.rebase "${CURRENT_PULL_CONFIG}"
     fi
 
-    echo "SUCCESS\n"
+    write_out "g" "SUCCESS\n"
 }
