@@ -42,9 +42,11 @@ UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${IN
 if [ "${INPUT_TEST_MODE}" = true ]; then
     write_out "b" "Running TESTS...\n"
     . ./run_tests.sh
+    write_out "b" "Tests Complete"
 else
     write_out "b" "Running ACTION...\n"
     . ./run_action.sh
+    write_out "b" "Action Complete"
 fi
 
 : '

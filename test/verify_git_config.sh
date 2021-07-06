@@ -51,7 +51,7 @@ verify_set_config() {
     TEST_PULL_CONFIG_RESULT=$(git config --get pull.rebase)
 
     if [ "${TEST_PULL_CONFIG_RESULT}" = "${INPUT_GIT_CONFIG_PULL_REBASE}" ]; then
-        write_out "g" "PASSED\n"
+        write_out "g" "PASSED"     # no \n because of cleanup output
     else
         write_out "r" "FAILED - pull.rebase is '${TEST_PULL_CONFIG_RESULT}'\n"
     fi
@@ -87,8 +87,8 @@ verify_reset_config() {
     if [ "${RESET_USER}" = "${CURRENT_USER}" ] &&
         [ "${RESET_EMAIL}" = "${CURRENT_EMAIL}" ] &&
         [ "${RESET_PULL_CONFIG}" = "${CURRENT_PULL_CONFIG}" ]; then
-        write_out -1 "Config reset was successful. All settings back to original user values."
+        write_out -1 "(All git configs set back to original user values.)\n"
     else
-        write_out "r" "Config reset failed. Please check and reset your local git config."
+        write_out "r" "(Config reset failed. Please check your local git config).\n"
     fi
 }
