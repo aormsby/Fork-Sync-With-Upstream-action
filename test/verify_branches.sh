@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# TODO: extract test passes/fails into separate script/func
 test_target_branch_exists() {
-    # TODO: change text based on final var name
     write_out "y" "TEST"
+    # TODO: change displayed input var names based on final revisions
     write_out -1 "[Verify Target Sync Branch] -> target_branch must exist"
     VERIFY_TARGET_BRANCH=$(git rev-parse --verify "refs/heads/${INPUT_TARGET_BRANCH}")
 

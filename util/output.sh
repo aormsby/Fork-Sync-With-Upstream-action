@@ -56,6 +56,3 @@ early_exit_cleanup() {
     reset_git_config
     # TODO: set fail output var here?
 }
-
-# TODO: check if 1>&1 is necessary or not
-# TODO: check if 1>&2 is better for errors

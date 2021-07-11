@@ -12,3 +12,11 @@ set_upstream() {
 
     write_out "r" "SUCCESS\n"
 }
+
+# # LOCAL MODE - handle if 'upstream' repo url is already set to another value
+    # CHECK_FOR_UPSTREAM_URL=$(git remote get-url "${UPSTREAM_REPO_URL}")
+    # if [ "$?" == 0 ] && [ "${CHECK_FOR_UPSTREAM_URL}" != "${UPSTREAM_REPO_URL}" ]; then
+    #     write_out 3 "An 'upstream' url is already set for a different repo. Can't set 'upstream'."
+    # else if [ "$?" != 0 ]
+    #     git remote add upstream ${UPSTREAM_REPO_URL}
+    # fi

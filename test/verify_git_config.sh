@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# TODO: improve console output
 test_config_git() {
     get_current_user_config
     set_git_config "${INPUT_GIT_CONFIG_USER}" "${INPUT_GIT_CONFIG_EMAIL}" "${INPUT_GIT_CONFIG_PULL_REBASE}"

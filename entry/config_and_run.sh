@@ -31,8 +31,7 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     INPUT_GIT_CONFIG_EMAIL="action@github.com"
     # TODO: change project name to upstream sync
     INPUT_GIT_CONFIG_USER="GH Action - Upstream Sync"
-    # TODO: remove quotes?
-    INPUT_GIT_CONFIG_PULL_REBASE="false"
+    INPUT_GIT_CONFIG_PULL_REBASE=false
     # endregion
 fi
 
