@@ -34,17 +34,27 @@ write_out() {
             ;;
 
         # safe exit, green output
-        0) echo "${BOLD}${GREEN}$2${NORMAL}" 1>&1
-            # TODO: set up exit function
+        0)  echo "${BOLD}${GREEN}SAFE EXIT${NORMAL}" 1>&1
+            echo "$2\n" 1>&1
+
+            early_exit_cleanup
             exit 0
             ;;
 
         # exit on error, red output
-        *) echo "${BOLD}${RED}exit $1: $2${NORMAL}" 1>&1
-            # TODO: set up exit function
-            exit "${1}"
+        *)  echo "${BOLD}${RED}ERROR: ${NORMAL} exit $1" 1>&2
+            echo "$2\n" 1>&2
+            echo "Try running in test mode to verify your action input. If that does not help, please open an issue." 1>&2
+
+            early_exit_cleanup
+            exit "$1"
             ;;
     esac
+}
+
+early_exit_cleanup() {
+    reset_git_config
+    # TODO: set fail output var here?
 }
 
 # TODO: check if 1>&1 is necessary or not
