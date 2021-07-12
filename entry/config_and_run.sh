@@ -16,26 +16,28 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     # TODO: explain local var settings use here
     # The Github login of the user initiating the workflow run
     GITHUB_ACTOR="aormsby"
-    INPUT_GITHUB_TOKEN="$(cat ../test_key.txt)"
-    INPUT_UPSTREAM_BRANCH="main"
-    INPUT_UPSTREAM_REPOSITORY="aoAppDev/action-test-access-repo"
-    # TODO: call me (target_)sync_branch
-    INPUT_TARGET_BRANCH="master"
-    # TODO: perhaps make args input use location more clear
-    INPUT_GIT_CHECKOUT_ARGS=""
-    INPUT_GIT_FETCH_ARGS=""
+    
+    # required vars (except token)
+    INPUT_SOURCE_SYNC_BRANCH="master"
+    INPUT_UPSTREAM_REPO_ACCESS_TOKEN="$(cat ../test_key.txt)"
+    INPUT_UPSTREAM_SYNC_REPO="aoAppDev/action-test-access-repo"
+    INPUT_UPSTREAM_SYNC_BRANCH="main"
+    
+    # optional vars (except token)
+    INPUT_SOURCE_BRANCH_CHECKOUT_ARGS=""
     INPUT_GIT_LOG_FORMAT_ARGS="--pretty=oneline"
-    INPUT_GIT_PULL_ARGS=""
-    INPUT_GIT_PUSH_ARGS=""
-    # TODO: update all var names in action.yaml
-    INPUT_GIT_CONFIG_EMAIL="action@github.com"
+    INPUT_UPSTREAM_PULL_ARGS=""
+    INPUT_SOURCE_PUSH_ARGS=""
+    
+    # git config vars - required if they aren't already set
     # TODO: change project name to upstream sync
     INPUT_GIT_CONFIG_USER="GH Action - Upstream Sync"
+    INPUT_GIT_CONFIG_EMAIL="action@github.com"
     INPUT_GIT_CONFIG_PULL_REBASE=false
     # endregion
 fi
 
-UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${INPUT_UPSTREAM_REPOSITORY}.git"
+UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}@github.com/${INPUT_UPSTREAM_SYNC_REPO}.git"
 
 # Fork to live action or test mode based on INPUT_TEST_MODE flag
 if [ "${INPUT_TEST_MODE}" = true ]; then

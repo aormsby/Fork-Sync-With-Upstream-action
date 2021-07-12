@@ -7,9 +7,9 @@ check_for_updates() {
 
     # get latest commit hashes from local and remote branches for comparison
     # shellcheck disable=SC2086
-    git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
-    LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
-    UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
+    git fetch upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_SOURCE_SYNC_BRANCH}")
+    UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}")
 
     if [ -z "${LOCAL_COMMIT_HASH}" ] || [ -z "${UPSTREAM_COMMIT_HASH}" ]; then
         HAS_NEW_COMMITS="error"
@@ -38,7 +38,7 @@ exit_no_commits() {
 output_new_commit_list() {
     write_out -1 'New commits since last sync:'
     # shellcheck disable=SC2086
-    git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
+    git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
 # sync from upstream to target_branch
@@ -47,7 +47,7 @@ sync_new_commits() {
 
     # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
     # shellcheck disable=SC2086
-    if ! git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"; then
+    if ! git pull --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"; then
         # exit on commit pull fail
         write_out "$?" "New commits could not be pulled."
     fi
