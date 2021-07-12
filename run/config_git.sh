@@ -2,7 +2,7 @@
 
 # called by run_action.sh
 config_for_action() {
-    write_out -1 "Setting git config from input vars."
+    write_out -1 "Setting git config from input vars. (Skips each config if input is set to 'null'.)"
     get_current_user_config
     set_git_config "${INPUT_GIT_CONFIG_USER}" "${INPUT_GIT_CONFIG_EMAIL}" "${INPUT_GIT_CONFIG_PULL_REBASE}"
     write_out "g" "SUCCESS\n"
@@ -17,15 +17,23 @@ get_current_user_config() {
 
 # set action config values
 set_git_config() {
-    git config user.name "${1}"
-    git config user.email "${2}"
+    # only set config if user did not set input var to "null"
+    if [ "${INPUT_GIT_CONFIG_USER}" != "null" ]; then
+        git config user.name "${1}"
+    fi
+
+    # only set config if user did not set input var to "null"
+    if [ "${INPUT_GIT_CONFIG_EMAIL}" != "null" ]; then
+        git config user.email "${2}"
+    fi
+
     git config pull.rebase "${3}"
 }
 
 # reset to original user config values
 reset_git_config() {
     write_out -1 "Resetting git config to previous settings."
-    
+
     if [ "${CURRENT_USER}" = "null" ]; then
         git config --unset user.name
     else

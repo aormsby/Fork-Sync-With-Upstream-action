@@ -44,18 +44,18 @@ inputs:
     default: ''
   
   git_config_user:
-    description: 'Git user credentials for sigining commit (set to "null" for no config)'
-    required: false
+    description: 'Git user credentials for sigining commit, (set to "null" for no config)'
+    required: true
     default: 'Action - Fork Sync'
 
   git_config_email:
     description: 'Git email credentials for sigining commit (set to "null" for no config)'
-    required: false
+    required: true
     default: 'action@github.com'
   
   git_config_pull_rebase:
     description: 'Git config for "pull.rebase" settings, usually recommend false for this action (set to "null" for no config)'
-    required: false
+    required: true
     default: 'false'
 
 outputs:
