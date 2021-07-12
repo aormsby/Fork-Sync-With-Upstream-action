@@ -21,7 +21,7 @@ output_new_commit_list
 sync_new_commits
 
 # push newly sunced commits to local branch
-. ../run/push_udpates.sh
+. ../run/push_updates.sh
 push_new_commits
 
 # git config cleanup for workflow continuation

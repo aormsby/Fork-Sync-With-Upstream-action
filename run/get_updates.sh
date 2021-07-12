@@ -6,6 +6,7 @@ check_for_updates() {
     write_out -1 'Checking for new commits on upstream branch.'
 
     # get latest commit hashes from local and remote branches for comparison
+    # shellcheck disable=SC2086
     git fetch ${INPUT_GIT_FETCH_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
     LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_BRANCH}")
     UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_BRANCH}")
@@ -36,6 +37,7 @@ exit_no_commits() {
 # display new commits since last sync
 output_new_commit_list() {
     write_out -1 'New commits since last sync:'
+    # shellcheck disable=SC2086
     git log upstream/"${INPUT_UPSTREAM_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
@@ -43,11 +45,10 @@ output_new_commit_list() {
 sync_new_commits() {
     write_out -1 'Syncing new commits...'
 
-    # pull_args examples: "--ff-only", "--tags"
-    git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
-    
-    # exit on commit pull fail
-    if [ "$?" != 0 ]; then
+    # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
+    # shellcheck disable=SC2086
+    if ! git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"; then
+        # exit on commit pull fail
         write_out "$?" "New commits could not be pulled."
     fi
 

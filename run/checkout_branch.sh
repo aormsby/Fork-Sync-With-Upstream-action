@@ -3,10 +3,10 @@
 # checkout target branch for updates
 checkout() {
     write_out -1 "Checking out target branch '${INPUT_TARGET_BRANCH}' for sync."
-    git checkout ${INPUT_GIT_CHECKOUT_ARGS} "${INPUT_TARGET_BRANCH}"
-
-    # exit on branch checkout fail
-    if [ "$?" != 0 ]; then
+    
+    # shellcheck disable=SC2086
+    if ! git checkout ${INPUT_GIT_CHECKOUT_ARGS} "${INPUT_TARGET_BRANCH}"; then
+        # exit on branch checkout fail
         write_out "$?" "Target branch could not be checked out."
     fi
 

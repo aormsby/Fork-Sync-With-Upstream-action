@@ -2,11 +2,10 @@
 
 set_upstream() {
     write_out -1 "Setting upstream repo."
-    git remote add upstream ${UPSTREAM_REPO_URL}
+    git remote add upstream "${UPSTREAM_REPO_URL}"
 
     # exit if upstream can't be accessed
-    git ls-remote -h ${UPSTREAM_REPO_URL} --quiet
-    if [ "$?" != 0 ]; then
+    if ! git ls-remote -h "${UPSTREAM_REPO_URL}" --quiet; then
         write_out "$?" "Could not verify upstream repo."
     fi
 

@@ -30,12 +30,11 @@ cleanup_test_dir() {
     if [ "${SKIP_CLEANUP}" = true ]; then
         true # no-op skip
     else
-        rm -rf "${TEST_CLONE_DIR}"
-
-        if [ "$?" = 0 ]; then
-            write_out -1 "(Clone directory cleanup successful.)\n"
-        else
+        # warn if cloned test directory can't be removed
+        if ! rm -rf "${TEST_CLONE_DIR}"; then
             write_out "r" "(Clone cleanup failed - please find and remove directory '${TEST_CLONE_DIR}')\n"
         fi
+
+        write_out -1 "(Clone directory cleanup successful.)\n"
     fi
 }

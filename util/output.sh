@@ -13,42 +13,49 @@ NORMAL="\033[m"
 # Set color and output message, exit gracefully if required
 write_out() {
     case $1 in
-        # default message, normal output
-        -1) echo "$2" 1>&1
-            ;;
+    # default message, normal output
+    -1)
+        echo "$2" 1>&1
+        ;;
 
-        # red output
-        [Rr]) echo "${BOLD}${RED}$2${NORMAL}" 1>&1
-            ;;
+    # red output
+    [Rr])
+        echo "${BOLD}${RED}$2${NORMAL}" 1>&1
+        ;;
 
-        # yellow output
-        [Yy]) echo "${BOLD}${YELLOW}$2${NORMAL}" 1>&1
-            ;;
+    # yellow output
+    [Yy])
+        echo "${BOLD}${YELLOW}$2${NORMAL}" 1>&1
+        ;;
 
-        # green output
-        [Gg]) echo "${BOLD}${GREEN}$2${NORMAL}" 1>&1   
-            ;;
-        
-        # green output
-        [Bb]) echo "${BOLD}${BLUE}$2${NORMAL}" 1>&1   
-            ;;
+    # green output
+    [Gg])
+        echo "${BOLD}${GREEN}$2${NORMAL}" 1>&1
+        ;;
 
-        # safe exit, green output
-        0)  echo "${BOLD}${GREEN}SAFE EXIT${NORMAL}" 1>&1
-            echo "$2\n" 1>&1
+    # green output
+    [Bb])
+        echo "${BOLD}${BLUE}$2${NORMAL}" 1>&1
+        ;;
 
-            early_exit_cleanup
-            exit 0
-            ;;
+    # safe exit, green output
+    0)
+        echo "${BOLD}${GREEN}SAFE EXIT${NORMAL}" 1>&1
+        printf '%s\n' "$2" 1>&1
 
-        # exit on error, red output
-        *)  echo "${BOLD}${RED}ERROR: ${NORMAL} exit $1" 1>&2
-            echo "$2\n" 1>&2
-            echo "Try running in test mode to verify your action input. If that does not help, please open an issue." 1>&2
+        early_exit_cleanup
+        exit 0
+        ;;
 
-            early_exit_cleanup
-            exit "$1"
-            ;;
+    # exit on error, red output
+    *)
+        echo "${BOLD}${RED}ERROR: ${NORMAL} exit $1" 1>&2
+        printf '%s\n' "$2" 1>&2
+        echo "Try running in test mode to verify your action input. If that does not help, please open an issue." 1>&2
+
+        early_exit_cleanup
+        exit "$1"
+        ;;
     esac
 }
 
