@@ -61,5 +61,5 @@ write_out() {
 
 early_exit_cleanup() {
     reset_git_config
-    # TODO: set fail output var here?
+    # TODO: set action fail output var here?
 }

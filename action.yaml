@@ -58,6 +58,11 @@ inputs:
     required: true
     default: 'false'
 
+  test_mode:
+    description: If set to 'true', runs verification test on all inputs and any testable actions that use them
+    required: true
+    default: 'false'
+
 outputs:
   has_new_commits:
     description: 'true when new commits were included in this sync'

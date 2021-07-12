@@ -2,8 +2,7 @@
 
 test_target_branch_exists() {
     write_out "y" "TEST"
-    # TODO: change displayed input var names based on final revisions
-    write_out -1 "[Verify Target Sync Branch] -> target_branch must exist"
+    write_out -1 "[Verify Source Sync Branch] -> tests 'source_sync_branch' input"
     VERIFY_TARGET_BRANCH=$(git rev-parse --verify "refs/heads/${INPUT_SOURCE_SYNC_BRANCH}")
 
     if [ -z "${VERIFY_TARGET_BRANCH}" ]; then
@@ -15,7 +14,7 @@ test_target_branch_exists() {
 
 test_upstream_repo_exists() {
     write_out "y" "TEST"
-    write_out -1 "[Verify Upstream Repo Exists] -> upstream_repository must exist"
+    write_out -1 "[Verify Upstream Sync Repo Exists] -> tests 'upstream_sync_repo' input"
     VERIFY_TARGET_REPO=$(git ls-remote "${UPSTREAM_REPO_URL}")
 
     if [ -z "${VERIFY_TARGET_REPO}" ]; then
@@ -28,7 +27,7 @@ test_upstream_repo_exists() {
 
 test_upstream_branch_exists() {
     write_out "y" "TEST"
-    write_out -1 "[Verify Upstream Branch] -> upstream_branch must exist"
+    write_out -1 "[Verify Upstream Sync Branch Exists] -> tests 'upstream_sync_branch' input"
     VERIFY_UPSTREAM_BRANCH=$(git ls-remote "${UPSTREAM_REPO_URL}" --refs "${INPUT_UPSTREAM_SYNC_BRANCH}")
 
     if [ -z "${VERIFY_UPSTREAM_BRANCH}" ]; then

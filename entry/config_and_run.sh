@@ -4,17 +4,14 @@
 . ../util/output.sh
 
 # TODO: SPIKE on 'live' tests through the action runner
-# TODO: set -e?? -- no, please handle all errors && exits
 if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     write_out "b" "\nRunning in LOCAL MODE..."
 
-    # TODO: set test mode in the yaml workflow
-    # set test mode here
-    INPUT_TEST_MODE=true
+    # set test mode, default false
+    INPUT_TEST_MODE=false
 
     # region vars
-    # TODO: explain local var settings use here
-    # The Github login of the user initiating the workflow run
+    # Github login of the user initiating the workflow run
     GITHUB_ACTOR="aormsby"
     
     # required vars (except token)

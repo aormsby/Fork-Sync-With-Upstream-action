@@ -18,7 +18,7 @@ async function main() {
     };
     // options.cwd = './lib';
 
-    await exec.exec('sh', [__dirname + '/config_and_run.sh'], options);
+    await exec.exec('sh', [__dirname + '/entry/config_and_run.sh'], options);
 
   } catch (error) {
     core.setFailed(error.message);
