@@ -60,18 +60,21 @@ verify_set_config() {
 reset_git_config() {
     if [ "${CURRENT_USER}" = "null" ]; then
         git config --unset user.name
+        CURRENT_USER=""
     else
         git config user.name "${CURRENT_USER}"
     fi
 
     if [ "${CURRENT_EMAIL}" = "null" ]; then
         git config --unset user.email
+        CURRENT_EMAIL=""
     else
         git config user.email "${CURRENT_EMAIL}"
     fi
 
     if [ "${CURRENT_PULL_CONFIG}" = "null" ]; then
         git config --unset pull.rebase
+        CURRENT_PULL_CONFIG=""
     else
         git config pull.rebase "${CURRENT_PULL_CONFIG}"
     fi
