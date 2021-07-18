@@ -1,7 +1,11 @@
 #!/bin/sh
 
+# get action directory for sourcing subscripts
+ACTION_PARENT_DIR=$(dirname "$(dirname "$0")")
+
+# shellcheck disable=SC1091
 # source script to handle message output
-. ../util/output.sh
+. "${ACTION_PARENT_DIR}"/util/output.sh
 
 # TODO: SPIKE on 'live' tests through the action runner
 if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
@@ -15,35 +19,47 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     GITHUB_ACTOR="aormsby"
     
     # required vars (except token)
+    # shellcheck disable=SC2034
     INPUT_SOURCE_SYNC_BRANCH="master"
-    INPUT_UPSTREAM_REPO_ACCESS_TOKEN="$(cat ../test_key.txt)"
+    INPUT_UPSTREAM_REPO_ACCESS_TOKEN="$(cat "${ACTION_PARENT_DIR}"/test_key.txt)"
     INPUT_UPSTREAM_SYNC_REPO="aoAppDev/action-test-access-repo"
+    # shellcheck disable=SC2034
     INPUT_UPSTREAM_SYNC_BRANCH="main"
     
     # optional vars (except token)
+    # shellcheck disable=SC2034
     INPUT_SOURCE_BRANCH_CHECKOUT_ARGS=""
+    # shellcheck disable=SC2034
     INPUT_GIT_LOG_FORMAT_ARGS="--pretty=oneline"
+    # shellcheck disable=SC2034
     INPUT_UPSTREAM_PULL_ARGS=""
+    # shellcheck disable=SC2034
     INPUT_SOURCE_PUSH_ARGS=""
     
     # git config vars - required if they aren't already set
     # TODO: change project name to upstream sync
+    # shellcheck disable=SC2034
     INPUT_GIT_CONFIG_USER="GH Action - Upstream Sync"
+    # shellcheck disable=SC2034
     INPUT_GIT_CONFIG_EMAIL="action@github.com"
+    # shellcheck disable=SC2034
     INPUT_GIT_CONFIG_PULL_REBASE=false
     # endregion
 fi
 
+# shellcheck disable=SC2034
 UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}@github.com/${INPUT_UPSTREAM_SYNC_REPO}.git"
 
 # Fork to live action or test mode based on INPUT_TEST_MODE flag
 if [ "${INPUT_TEST_MODE}" = true ]; then
     write_out "b" "Running TESTS...\n"
-    . ./run_tests.sh
+    # shellcheck disable=SC1091
+    . "${ACTION_PARENT_DIR}"/entry/run_tests.sh
     write_out "b" "Tests Complete"
 else
     write_out "b" "Running ACTION...\n"
-    . ./run_action.sh
+    # shellcheck disable=SC1091
+    . "${ACTION_PARENT_DIR}"/entry/run_action.sh
     write_out "b" "Action Complete"
 fi
 

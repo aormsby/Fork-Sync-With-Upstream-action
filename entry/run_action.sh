@@ -2,26 +2,31 @@
 
 # source action scripts, then run individual functions
 
+# shellcheck disable=SC1091
 # config git settings
-. ../run/config_git.sh
+. "${ACTION_PARENT_DIR}"/run/config_git.sh
 config_for_action
 
+# shellcheck disable=SC1091
 # checkout target branch in source repo
-. ../run/checkout_branch.sh
+. "${ACTION_PARENT_DIR}"/run/checkout_branch.sh
 checkout
 
+# shellcheck disable=SC1091
 # set upstream repo
-. ../run/set_upstream_repo.sh
+. "${ACTION_PARENT_DIR}"/run/set_upstream_repo.sh
 set_upstream
 
+# shellcheck disable=SC1091
 # check for new commits and sync or exit
-. ../run/get_updates.sh
+. "${ACTION_PARENT_DIR}"/run/get_updates.sh
 check_for_updates
 output_new_commit_list
 sync_new_commits
 
+# shellcheck disable=SC1091
 # push newly sunced commits to local branch
-. ../run/push_updates.sh
+. "${ACTION_PARENT_DIR}"/run/push_updates.sh
 push_new_commits
 
 # git config cleanup for workflow continuation
