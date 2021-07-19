@@ -36,7 +36,7 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     INPUT_SOURCE_PUSH_ARGS=""
     
     # git config vars - required if they aren't already set
-    # TODO: change project name to upstream sync
+    # TODO: change project name to 'Upstream Sync'
     # shellcheck disable=SC2034
     INPUT_GIT_CONFIG_USER="GH Action - Upstream Sync"
     # shellcheck disable=SC2034

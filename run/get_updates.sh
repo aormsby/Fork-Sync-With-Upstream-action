@@ -15,7 +15,7 @@ check_for_updates() {
         HAS_NEW_COMMITS="error"
     elif [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
         HAS_NEW_COMMITS=false
-    else # TODO: make this more robust, currently assumes that the syncing branch is never commited to :/
+    else
         HAS_NEW_COMMITS=true
     fi
 

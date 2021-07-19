@@ -4,7 +4,6 @@
 checkout() {
     write_out -1 "Checking out target branch '${INPUT_SOURCE_SYNC_BRANCH}' for sync."
 
-    # TODO: find a way to checkout the target branch if not set as ref in the checkout action step
     # shellcheck disable=SC2086
     git checkout ${INPUT_SOURCE_BRANCH_CHECKOUT_ARGS} "${INPUT_SOURCE_SYNC_BRANCH}"
     COMMAND_STATUS=$?

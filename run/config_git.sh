@@ -32,7 +32,7 @@ set_git_config() {
 
 # reset to original user config values
 reset_git_config() {
-    write_out -1 "\nResetting git config to previous settings."
+    write_out -1 "Resetting git config to previous settings."
 
     if [ "${CURRENT_USER}" = "null" ]; then
         git config --unset user.name
