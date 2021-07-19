@@ -40,8 +40,8 @@ write_out() {
 
     # safe exit, green output
     0)
+        printf '\n%s\n' "$2" 1>&1
         echo "${BOLD}${GREEN}SAFE EXIT${NORMAL}" 1>&1
-        printf '%s\n' "$2" 1>&1
 
         early_exit_cleanup
         exit 0
@@ -50,7 +50,7 @@ write_out() {
     # exit on error, red output
     *)
         echo "${BOLD}${RED}ERROR: ${NORMAL} exit $1" 1>&2
-        printf '%s\n' "$2" 1>&2
+        printf '\n%s\n' "$2" 1>&2
         echo "Try running in test mode to verify your action input. If that does not help, please open an issue." 1>&2
 
         early_exit_cleanup

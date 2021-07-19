@@ -15,7 +15,7 @@ check_for_updates() {
         HAS_NEW_COMMITS="error"
     elif [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
         HAS_NEW_COMMITS=false
-    else # assumes that remote will never be behind local when using this action...
+    else # TODO: make this more robust, currently assumes that the syncing branch is never commited to :/
         HAS_NEW_COMMITS=true
     fi
 
@@ -47,9 +47,12 @@ sync_new_commits() {
 
     # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
     # shellcheck disable=SC2086
-    if ! git pull --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"; then
+    git pull --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    COMMAND_STATUS=$?
+
+    if [ "${COMMAND_STATUS}" != 0 ]; then
         # exit on commit pull fail
-        write_out "$?" "New commits could not be pulled."
+        write_out "${COMMAND_STATUS}" "New commits could not be pulled."
     fi
 
     write_out "g" 'SUCCESS\n'

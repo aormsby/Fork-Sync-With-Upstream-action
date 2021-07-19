@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set_upstream() {
-    write_out -1 "Setting upstream repo."
+    write_out -1 "Setting upstream repo to '${INPUT_UPSTREAM_SYNC_REPO}'."
     git remote add upstream "${UPSTREAM_REPO_URL}"
 
     # # exit if upstream can't be accessed

@@ -7,7 +7,6 @@ ACTION_PARENT_DIR=$(dirname "$(dirname "$0")")
 # source script to handle message output
 . "${ACTION_PARENT_DIR}"/util/output.sh
 
-# TODO: SPIKE on 'live' tests through the action runner
 if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     write_out "b" "\nRunning in LOCAL MODE..."
 
