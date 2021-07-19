@@ -20,7 +20,7 @@ test_has_upstream_repo_access() {
     if [ "${COMMAND_EXIT_CODE}" -eq "0" ]; then
         write_out "g" "PASSED" # no \n because of cleanup output
     else
-        write_out "r" "Test 1 FAILED - repo does not exist OR you do not have permission to clone from it\n"
+        write_out "r" "FAILED - repo does not exist OR you do not have permission to clone from it\n"
         SKIP_CLEANUP=true
     fi
 }

@@ -3,7 +3,7 @@
 # check latest commit hashes for a match, exit if nothing to sync
 
 check_for_updates() {
-    write_out -1 'Checking for new commits on upstream branch.'
+    write_out -1 'Checking for new commits on upstream branch.\n'
 
     # get latest commit hashes from local and remote branches for comparison
     # shellcheck disable=SC2086

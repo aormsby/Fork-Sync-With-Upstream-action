@@ -9,7 +9,7 @@ set_upstream() {
     #     write_out "$?" "Could not verify upstream repo."
     # fi
 
-    write_out "r" "SUCCESS\n"
+    write_out "g" "SUCCESS\n"
 }
 
 # # LOCAL MODE - handle if 'upstream' repo url is already set to another value

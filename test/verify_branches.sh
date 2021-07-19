@@ -31,7 +31,7 @@ test_upstream_branch_exists() {
     VERIFY_UPSTREAM_BRANCH=$(git ls-remote "${UPSTREAM_REPO_URL}" --refs "${INPUT_UPSTREAM_SYNC_BRANCH}")
 
     if [ -z "${VERIFY_UPSTREAM_BRANCH}" ]; then
-        write_out "r" "Test 3 FAILED - no branch '${INPUT_UPSTREAM_SYNC_BRANCH}' found on remote repo\n"
+        write_out "r" "FAILED - no branch '${INPUT_UPSTREAM_SYNC_BRANCH}' found on remote repo\n"
     else
         write_out "g" "PASSED\n"
     fi
