@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# push to origin target_branch
+# push to origin source_sync_branch
 push_new_commits() {
-    write_out -1 'Pushing synced data to target branch.'
+    write_out -1 'Pushing synced data to source branch.'
 
     # shellcheck disable=SC2086
     git push ${INPUT_SOURCE_PUSH_ARGS} origin "${INPUT_SOURCE_SYNC_BRANCH}"

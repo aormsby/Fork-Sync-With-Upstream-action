@@ -36,14 +36,14 @@ exit_no_commits() {
 
 # display new commits since last sync
 output_new_commit_list() {
-    write_out -1 'New commits since last sync:'
+    write_out -1 '\nNew commits since last sync:'
     # shellcheck disable=SC2086
     git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
 # sync from upstream to target_branch
 sync_new_commits() {
-    write_out -1 'Syncing new commits...'
+    write_out -1 '\nSyncing new commits...'
 
     # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
     # shellcheck disable=SC2086
