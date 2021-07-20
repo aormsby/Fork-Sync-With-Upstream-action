@@ -7,7 +7,6 @@ push_new_commits() {
     # TODO: figure out hwo this would work in local mode...
     # update origin url with token since it is not persisted during checkout step when syncing from a private repo
     if [ -n "${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}" ]; then
-        echo "github token - ${INPUT_SOURCE_REPO_TOKEN}"
         git remote set-url origin "https://${GITHUB_ACTOR}:${INPUT_SOURCE_REPO_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
     fi
 

@@ -25,7 +25,7 @@ output_new_commit_list
 sync_new_commits
 
 # shellcheck disable=SC1091
-# push newly sunced commits to local branch
+# push newly synced commits to local branch
 . "${ACTION_PARENT_DIR}"/run/push_updates.sh
 push_new_commits
 
