@@ -16,6 +16,12 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     # region vars
     # Github login of the user initiating the workflow run
     GITHUB_ACTOR="aormsby"
+
+    # TODO: figure out local mode defaults and use
+    # shellcheck disable=SC2034
+    INPUT_SOURCE_REPO_TOKEN=""
+    # shellcheck disable=SC2034
+    GITHUB_REPOSITORY=""
     
     # required vars (except token)
     # shellcheck disable=SC2034

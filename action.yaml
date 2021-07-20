@@ -11,6 +11,10 @@ inputs:
     description: 'Branch receiving updates from the upstream repo, e.g. => main, master, prod'
     required: true
 
+  source_repo_token:
+    description: 'Input for passing secrets.GITHUB_TOKEN when disabling persistent auth in the checkout step'
+    required: false
+
   upstream_repo_access_token:
     description: 'Token for accessing the remote repo through HTTPS authentication'
     required: false
