@@ -41,7 +41,7 @@ output_new_commit_list() {
     git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
-# sync from upstream to target_branch
+# sync from upstream to source_sync_branch
 sync_new_commits() {
     write_out -1 '\nSyncing new commits...'
 
