@@ -9,7 +9,7 @@ check_for_updates() {
     # shellcheck disable=SC2086
     git fetch upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
     LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_SOURCE_SYNC_BRANCH}")
-    UPSTREAM_COMMIT_HASH=$(git rev-parse upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}")
+    UPSTREAM_COMMIT_HASH=$(git rev-parse "upstream/${INPUT_UPSTREAM_SYNC_BRANCH}")
 
     if [ -z "${LOCAL_COMMIT_HASH}" ] || [ -z "${UPSTREAM_COMMIT_HASH}" ]; then
         HAS_NEW_COMMITS="error"
