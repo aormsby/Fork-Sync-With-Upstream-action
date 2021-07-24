@@ -3,10 +3,10 @@
 test_target_branch_exists() {
     write_out "y" "TEST"
     write_out -1 "[Verify Source Sync Branch] -> tests 'source_sync_branch' input"
-    VERIFY_TARGET_BRANCH=$(git rev-parse --verify "remotes/origin/${INPUT_SOURCE_SYNC_BRANCH}")
+    VERIFY_TARGET_BRANCH=$(git rev-parse --verify "remotes/origin/${INPUT_TARGET_SYNC_BRANCH}")
 
     if [ -z "${VERIFY_TARGET_BRANCH}" ]; then
-        write_out "r" "FAILED - no branch '${INPUT_SOURCE_SYNC_BRANCH}' to run action on\nDid you set 'ref' correctly in the checkout step?\n"
+        write_out "r" "FAILED - no branch '${INPUT_TARGET_SYNC_BRANCH}' to run action on\nDid you set 'ref' correctly in the checkout step?\n"
     else
         write_out "g" "PASSED\n"
     fi

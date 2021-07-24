@@ -7,11 +7,11 @@ branding:
   color: orange
 
 inputs:
-  source_sync_branch:
+  target_sync_branch:
     description: 'Branch receiving updates from the upstream repo, e.g. => main, master, prod'
     required: true
 
-  source_repo_token:
+  target_repo_token:
     description: 'Input for passing secrets.GITHUB_TOKEN when disabling persistent auth in the checkout step'
     required: false
 
@@ -27,7 +27,7 @@ inputs:
     description: 'Branch to sync from, e.g. => main, master, dev'
     required: true
 
-  source_branch_checkout_args:
+  target_branch_checkout_args:
     description: 'Any extra args to pass to `git checkout` on the source branch, e.g. --recurse-submodules :: default = ""'
     required: false
     default: ''
@@ -42,7 +42,7 @@ inputs:
     required: false
     default: ''
 
-  source_push_args:
+  target_branch_push_args:
     description: 'Git args passed when running `git push` to apply changes to the source repo, e.g. --force :: default = ""'
     required: false
     default: ''
