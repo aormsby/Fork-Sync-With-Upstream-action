@@ -13,7 +13,7 @@ inputs:
 
   target_repo_token:
     description: 'Input for passing secrets.GITHUB_TOKEN when disabling persistent auth in the checkout step'
-    required: false
+    required: true
 
   upstream_repo_access_token:
     description: 'Token for accessing the remote repo through HTTPS authentication'
@@ -50,7 +50,7 @@ inputs:
   git_config_user:
     description: 'Git user credentials for sigining commit, (set to "null" for no config)'
     required: true
-    default: 'Action - Fork Sync'
+    default: 'GH Action - Upstream Sync'
 
   git_config_email:
     description: 'Git email credentials for sigining commit (set to "null" for no config)'
