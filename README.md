@@ -43,15 +43,16 @@ This action supports syncing from both public and private upstream repos. Store 
 
 #### Advanced Use (all optional args)
 
-| Name                        | Required? | Default                     | Example                    |
-| --------------------------- | :-------: | --------------------------- | -------------------------- |
-| target_branch_checkout_args |           |                             | '--recurse-submodules'     |
-| git_log_format_args         |           | '--pretty=oneline'          | '--graph --pretty=oneline' |
-| upstream_pull_args          |           |                             | '--ff-only --tags'         |
-| target_branch_push_args     |           |                             | '--force'                  |
-| git_config_user             |           | 'GH Action - Upstream Sync' |                            |
-| git_config_email            |           | 'action@github.com'         |                            |
-| git_config_pull_rebase      |           | 'false'                     |                            |
+| Name                        |     Required?      | Default                     | Example                    |
+| --------------------------- | :----------------: | --------------------------- | -------------------------- |
+| host_domain                 | :white_check_mark: | 'github.com'                | 'github.com'               |
+| target_branch_checkout_args |                    |                             | '--recurse-submodules'     |
+| git_log_format_args         |                    | '--pretty=oneline'          | '--graph --pretty=oneline' |
+| upstream_pull_args          |                    |                             | '--ff-only --tags'         |
+| target_branch_push_args     |                    |                             | '--force'                  |
+| git_config_user             |                    | 'GH Action - Upstream Sync' |                            |
+| git_config_email            |                    | 'action@github.com'         |                            |
+| git_config_pull_rebase      |                    | 'false'                     |                            |
 
 ##### Git Config Settings
 

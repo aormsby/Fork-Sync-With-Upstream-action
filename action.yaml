@@ -66,6 +66,11 @@ inputs:
     description: If set to 'true', runs verification test on all inputs and any testable actions that use them
     required: true
     default: 'false'
+  
+  host_domain:
+    description: 'Domain name to be used in upstream repo URL.'
+    required: true
+    default: 'github.com'
 
 outputs:
   has_new_commits:

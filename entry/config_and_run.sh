@@ -18,7 +18,7 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     write_out "b" "\nRunning in LOCAL MODE..."
 
     # set test mode, default false
-    INPUT_TEST_MODE=false
+    INPUT_TEST_MODE=true
 
     # TODO: figure out good local mode defaults
 
@@ -58,14 +58,16 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     # shellcheck disable=SC2034
     INPUT_GIT_CONFIG_PULL_REBASE=false
     # endregion
+
+    INPUT_HOST_DOMAIN='github.com'
 fi
 
 if [ -z "${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}" ]; then
     # shellcheck disable=SC2034
-    UPSTREAM_REPO_URL="https://github.com/${INPUT_UPSTREAM_SYNC_REPO}.git"
+    UPSTREAM_REPO_URL="https://${INPUT_HOST_DOMAIN}/${INPUT_UPSTREAM_SYNC_REPO}.git"
 else
     # shellcheck disable=SC2034
-    UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}@github.com/${INPUT_UPSTREAM_SYNC_REPO}.git"
+    UPSTREAM_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}@${INPUT_HOST_DOMAIN}/${INPUT_UPSTREAM_SYNC_REPO}.git"
 fi
 
 # Fork to live action or test mode based on INPUT_TEST_MODE flag
