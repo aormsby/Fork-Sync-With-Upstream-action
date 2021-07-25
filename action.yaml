@@ -24,6 +24,10 @@ inputs:
     description: 'Branch to sync from, e.g. => main, master, dev'
     required: true
 
+  target_repo_token:
+    description: 'required to be set to `secrets.GITHUB_TOKEN` for action to function'
+    required: true
+
   target_branch:
     description: 'Branch to push to, e.g. => main, master, prod'
     required: true

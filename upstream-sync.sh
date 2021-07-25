@@ -102,6 +102,11 @@ echo 'Syncing...' 1>&1
 git pull --no-edit ${INPUT_GIT_PULL_ARGS} upstream "${INPUT_UPSTREAM_BRANCH}"
 echo 'Sync successful' 1>&1
 
+# required for private upstream access to work
+if [ -n "${INPUT_GITHUB_TOKEN}" ]; then
+        git remote set-url origin "https://${GITHUB_ACTOR}:${INPUT_TARGET_REPO_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+fi
+
 # push to origin target_branch
 echo 'Pushing to target branch...' 1>&1
 git push ${INPUT_GIT_PUSH_ARGS} origin "${INPUT_TARGET_BRANCH}"
