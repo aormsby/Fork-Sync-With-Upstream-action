@@ -8,7 +8,7 @@
 config_for_action
 
 # shellcheck disable=SC1091
-# checkout target branch in source repo
+# checkout target branch in target repo
 . "${ACTION_PARENT_DIR}"/run/checkout_branch.sh
 checkout
 

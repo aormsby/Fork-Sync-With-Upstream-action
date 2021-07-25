@@ -2,7 +2,7 @@
 
 test_target_branch_exists() {
     write_out "y" "TEST"
-    write_out -1 "[Verify Source Sync Branch] -> tests 'source_sync_branch' input"
+    write_out -1 "[Verify Target Sync Branch] -> tests 'target_sync_branch' input"
     VERIFY_TARGET_BRANCH=$(git rev-parse --verify "remotes/origin/${INPUT_TARGET_SYNC_BRANCH}")
 
     if [ -z "${VERIFY_TARGET_BRANCH}" ]; then

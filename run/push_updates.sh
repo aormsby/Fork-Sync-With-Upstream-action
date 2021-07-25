@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# push to origin source_sync_branch
+# push to origin target_sync_branch
 push_new_commits() {
-    write_out -1 'Pushing synced data to source branch.'
+    write_out -1 'Pushing synced data to target branch.'
 
     # TODO: figure out how this would work in local mode...
     # update origin url with token since it is not persisted during checkout step when syncing from a private repo
@@ -15,8 +15,8 @@ push_new_commits() {
     COMMAND_STATUS=$?
 
     if [ "${COMMAND_STATUS}" != 0 ]; then
-        # exit on push to source repo fail
-        write_out "${COMMAND_STATUS}" "Could not push changes to source repo."
+        # exit on push to target repo fail
+        write_out "${COMMAND_STATUS}" "Could not push changes to target repo."
     fi
     
     write_out "g" 'SUCCESS\n'

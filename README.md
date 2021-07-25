@@ -65,7 +65,7 @@ Some basic git config settings must be in place to pull and push data during the
 
 **has_new_commits** - returns **true** when new commits were found in the run of this sync action
 
-Want more output variables? [Open an issue]() and let me know.
+Want more output variables? [Open an issue](https://github.com/aormsby/Fork-Sync-With-Upstream-action/issues) and let me know.
 
 ## Sample Workflow
 
