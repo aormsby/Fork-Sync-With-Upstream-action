@@ -11,6 +11,11 @@ inputs:
     description: 'Token for accessing the remote repo with authentication'
     required: false
 
+  domain:
+    description: 'Domain name'
+    required: true
+    default: 'github.com'
+
   upstream_repository:
     description: 'Upstream repository, e.g. => aormsby/Fork-Sync-With-Upstream-action'
     required: true
