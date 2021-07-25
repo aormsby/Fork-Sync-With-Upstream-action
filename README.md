@@ -4,7 +4,7 @@ An action with forks in mind! Automatically sync a branch on your fork with the 
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
 
-**\*\*NEW:\*\*** Test Mode runs key checks on your input values to help you verify your action configuration before running and avoid errors when you go live! ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki))
+**\*\*NEW in v3:\*\*** Test Mode runs key checks on your input values to help you verify your action configuration before running and avoid errors when you go live! ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki#test-mode))
 
 <a href="https://www.buymeacoffee.com/aormsby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
@@ -16,17 +16,15 @@ You have a branch on your `target` repo - the one you want to update - and a bra
 
 <img src="img/fork-sync-diagram.png" alt="sample git workflow">
 
-As stated, this works best if your target branch is a non-working branch - i.e. you don't make any commits to it. Check out the [wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki) for ideas on how to use input vars for different situations.
+As stated, this works best if your target branch is a non-working branch - i.e. you don't make any commits to it. Check out the [wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#scenarios-for-advanced-input) for notes on how to use input vars for specific situations.
 
 ## How to Use
 
-[Add a workflow](https://docs.github.com/en/actions/quickstart#creating-your-first-workflow) to your repo that includes this action ([sample below](sample-workflow)). Please note that scheduled workflows only run on the default branch of a repo.
+[Add a workflow](https://docs.github.com/en/actions/quickstart#creating-your-first-workflow) to your repo that includes this action ([sample below](#sample-workflow)). Please note that scheduled workflows only run on the default branch of a repo.
 
 ### Input Variables
 
-For many cases, your input variables will be pretty straightforward. You can use the 'core' inputs most of the time, and there are 'advanced' inputs if you have more specific needs.
-
-**Note:** For clarity, some variable names have been changed between v2 and v3. Please check your workflows for the correct input.
+**Note:** For clarity reasons, some variable names have been changed between v2 and v3. Please check your workflows for the correct input.
 
 #### Core Use
 
@@ -39,7 +37,7 @@ For many cases, your input variables will be pretty straightforward. You can use
 | upstream_sync_branch       | :white_check_mark: |         | 'master', 'main', 'my-branch'            |
 | test_mode                  |                    | false   | true / false                             |
 
-**Always** set `target_repo_token` to `${{ secrets.GITHUB_TOKEN }}` so the action can push to your target repo. ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki))
+**Always** set `target_repo_token` to `${{ secrets.GITHUB_TOKEN }}` so the action can push to your target repo. ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#setup-notes))
 
 This action supports syncing from both public and private upstream repos. Store an authentication token in your target repo and use `github_token: ${{ secrets.NAME_OF_TOKEN }}` as an input var for the action to access your private upstream repo.
 
@@ -63,7 +61,9 @@ Some basic git config settings must be in place to pull and push data during the
 
 ### Output Variables
 
-**has_new_commits** - returns **true** when new commits were found in the run of this sync action
+| Name            | Output     | Description                                                                                                     |
+| --------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
+| has_new_commits | true/false | Outputs true if new commits were found in the remote repo, false if target repo already has the latest updates. |
 
 Want more output variables? [Open an issue](https://github.com/aormsby/Fork-Sync-With-Upstream-action/issues) and let me know.
 
