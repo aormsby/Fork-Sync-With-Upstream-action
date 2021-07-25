@@ -4,6 +4,14 @@ An action for forks! Automatically sync a branch on your fork with the latest co
 
 <a href="https://www.buymeacoffee.com/aormsby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
+**v2.4 updates:**
+- Add required `target_repo_token` input - must **always** be set to `${{ secrets.GITHUB_TOKEN }}`
+  - See [setup notes](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#setup-notes) for private upstream repos
+- Add `domain` input option
+- Fix some typos
+
+**Note:** This is the final v2 update. All new updates go to v3 and later.
+
 ## Intended Workflow
 
 This action is primarily intended to keep **untouched** branches up to date with a remote repo. So let's say you want to keep `main` updated with the upstream repo. You make a new branch `dev` (or whatever) and commit your new changes *there* - not on `main`. If you commit on `main`, you create a split history between your downstream and upstream changes, and any merge from upstream will fail. (This is just how git works.) But if you keep them separate and keep `main` clean, you can always pull the upstream's latest from `main`.
@@ -24,27 +32,28 @@ As with any Github Action, you must include it in a workflow for your repo to ru
 
 #### Basic Use
 
-| Name                | Required?           | Default           | Example |
-| ------------------- |:------------------: | ----------------- | ----------
-| upstream_repository | :white_check_mark:  |                   | aormsby/Fork-Sync-With-Upstream-action  |
-| upstream_branch     | :white_check_mark:  |                   | 'master', 'main', 'dev'                 |
-| target_branch       | :white_check_mark:  |                   | 'master', 'main', 'prod'                |
-| github_token        |                     |                   | ${{ secrets.GITHUB_TOKEN }}             |
+| Name                |     Required?      | Default | Example                                           |
+| ------------------- | :----------------: | ------- | ------------------------------------------------- |
+| upstream_repository | :white_check_mark: |         | aormsby/Fork-Sync-With-Upstream-action            |
+| upstream_branch     | :white_check_mark: |         | 'master', 'main', 'dev'                           |
+| target_branch       | :white_check_mark: |         | 'master', 'main', 'prod'                          |
+| target_repo_token   | :white_check_mark: |         | must always be set to ${{ secrets.GITHUB_TOKEN }} |
+| github_token        |                    |         | ${{ secrets.UPSTREAM_REPO_TOKEN }}                |
 
 For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
 
 #### Advanced Use (all optional args)
 
-| Name                   | Required?           | Default             | Example |
-| ---------------------- |:------------------: | ------------------- | ----------
-| git_checkout_args      |                     |                     | '--recurse-submodules'     |
-| git_fetch_args         |                     |                     | '--tags'                   |
-| git_log_format_args    |                     | '--pretty=oneline'  | '--graph --pretty=oneline' |
-| git_pull_args          |                     | 'pull'              | '--ff-only'                |
-| git_push_args          |                     |                     | '--force'                  |
-| git_user               |                     | 'Action - Fork Sync'|                            |
-| git_email              |                     | 'action@github.com' |                            |
-| git_pull_rebase_config |                     | 'false'             |                            |
+| Name                   | Required? | Default              | Example                    |
+| ---------------------- | :-------: | -------------------- | -------------------------- |
+| git_checkout_args      |           |                      | '--recurse-submodules'     |
+| git_fetch_args         |           |                      | '--tags'                   |
+| git_log_format_args    |           | '--pretty=oneline'   | '--graph --pretty=oneline' |
+| git_pull_args          |           | 'pull'               | '--ff-only'                |
+| git_push_args          |           |                      | '--force'                  |
+| git_user               |           | 'Action - Fork Sync' |                            |
+| git_email              |           | 'action@github.com'  |                            |
+| git_pull_rebase_config |           | 'false'              |                            |
 
 ##### Git Config Settings
 
@@ -111,7 +120,7 @@ jobs:
     # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
     - name: Pull (Fast-Forward) upstream changes
       id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v2.1
+      uses: aormsby/Fork-Sync-With-Upstream-action@v2.4
       with:
         upstream_repository: aormsby/hugo-deploy-to-pages
         upstream_branch: main
