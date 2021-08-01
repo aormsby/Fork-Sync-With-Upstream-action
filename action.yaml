@@ -1,6 +1,6 @@
 name: 'Upstream Sync'
 author: 'Adam Ormsby (@aormsby)'
-description: 'Automatically updates your branch with new commits from an upstream repo, great for forks or keeping up to date with other projects'
+description: 'Automatically updates a target branch with new commits from an upstream repo, great for forks or parallel projects'
 
 branding:
   icon: refresh-ccw
