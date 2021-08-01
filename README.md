@@ -1,5 +1,7 @@
 # Github Action: Upstream Sync
 
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/aormsby/Fork-Sync-With-Upstream-action)
+
 An action with forks in mind! Automatically sync a branch on your fork with the latest commits from the original repo. Keep things up to date!
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
