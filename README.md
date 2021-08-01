@@ -1,99 +1,76 @@
-# Github Action: Fork Sync With Upstream
+# Github Action: Upstream Sync
 
-An action for forks! Automatically sync a branch on your fork with the latest commits from the original repo. Keep things up to date! (It actually works for syncing *any* repo branch with an upstream repo, but I was thinking about forks when I made it.)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/aormsby/Fork-Sync-With-Upstream-action)
+
+An action with forks in mind! Automatically sync a branch on your fork with the latest commits from the original repo. Keep things up to date!
+
+**Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
+
+**\*\*NEW in v3:\*\*** Test Mode runs key checks on your input values to help you verify your action configuration before running and avoid errors when you go live! ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki#test-mode))
 
 <a href="https://www.buymeacoffee.com/aormsby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
-**v2.4 updates:**
-- Add required `target_repo_token` input - must **always** be set to `${{ secrets.GITHUB_TOKEN }}`
-  - See [setup notes](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#setup-notes) for private upstream repos
-- Add `domain` input option
-- Fix some typos
-
-**Note:** This is the final v2 update. All new updates go to v3 and later.
-
 ## Intended Workflow
 
-This action is primarily intended to keep **untouched** branches up to date with a remote repo. So let's say you want to keep `main` updated with the upstream repo. You make a new branch `dev` (or whatever) and commit your new changes *there* - not on `main`. If you commit on `main`, you create a split history between your downstream and upstream changes, and any merge from upstream will fail. (This is just how git works.) But if you keep them separate and keep `main` clean, you can always pull the upstream's latest from `main`.
+This action was made to keep **non-working** branches up to date with a remote repo. However, you can probably use it for active work branches as well if the custom input supports your needs. Here's how it works.
 
-From there, you can make controlled merges into your active branches, make clean PRs directly from `main`, and pretty much do whatever you want with your smoothly updated branch!
+You have a branch on your `target` repo - the one you want to update - and a branch on your `upstream` repo - where the updates are coming from. This action checks out those branches on both repos, checks for any new commits (by hash comparison), and pulls those new commits from upstream. Easy!
 
-<img src="img/workflow.png" alt="sample git workflow">
+<img src="img/fork-sync-diagram.png" alt="sample git workflow">
 
-(Pretend this says 'main' so I don't have to edit the image. Thanks.))
-
-If you *really* want to make commits and merge from upstream on the same branch, I added some notes to achieve this below. This is not recommended, however.
+As stated, this works best if your target branch is a non-working branch - i.e. you don't make any commits to it. Check out the [wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Scenarios-for-Advanced-Input) for notes on how to use input vars for specific situations.
 
 ## How to Use
 
-As with any Github Action, you must include it in a workflow for your repo to run. Place the workflow at `.github/workflows/my-sync-workflow.yaml` in the default repo branch (required for scheduled jobs at this time). For more help, see [Github Actions documentation](https://docs.github.com/en/actions).
+[Add a workflow](https://docs.github.com/en/actions/quickstart#creating-your-first-workflow) to your repo that includes this action ([sample below](#sample-workflow)). Please note that scheduled workflows only run on the default branch of a repo.
 
 ### Input Variables
 
-#### Basic Use
+**Note:** For clarity reasons, some variable names have been changed between v2 and v3. Please check your workflows for the correct input.
 
-| Name                |     Required?      | Default | Example                                           |
-| ------------------- | :----------------: | ------- | ------------------------------------------------- |
-| upstream_repository | :white_check_mark: |         | aormsby/Fork-Sync-With-Upstream-action            |
-| upstream_branch     | :white_check_mark: |         | 'master', 'main', 'dev'                           |
-| target_branch       | :white_check_mark: |         | 'master', 'main', 'prod'                          |
-| target_repo_token   | :white_check_mark: |         | must always be set to ${{ secrets.GITHUB_TOKEN }} |
-| github_token        |                    |         | ${{ secrets.UPSTREAM_REPO_TOKEN }}                |
+#### Core Use
 
-For **github_token** - use `${{ secrets.GITHUB_TOKEN }}` where `GITHUB_TOKEN` is the name of the secret in your repo ([see docs for help](https://docs.github.com/en/actions/configuring-and-managing-workflows/using-variables-and-secrets-in-a-workflow))
+| Name                       |     Required?      | Default | Example                                  |
+| -------------------------- | :----------------: | ------- | ---------------------------------------- |
+| target_sync_branch         | :white_check_mark: |         | 'master', 'main', 'my-branch'            |
+| target_repo_token          | :white_check_mark: |         | ${{ secrets.GITHUB_TOKEN }}              |
+| upstream_repo_access_token |                    |         | ${{ secrets.NAME_OF_TOKEN }}             |
+| upstream_sync_repo         | :white_check_mark: |         | 'aormsby/Fork-Sync-With-Upstream-action' |
+| upstream_sync_branch       | :white_check_mark: |         | 'master', 'main', 'my-branch'            |
+| test_mode                  |                    | false   | true / false                             |
+
+**Always** set `target_repo_token` to `${{ secrets.GITHUB_TOKEN }}` so the action can push to your target repo. ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#setup-notes))
+
+This action supports syncing from both public and private upstream repos. Store an authentication token in your target repo and use `github_token: ${{ secrets.NAME_OF_TOKEN }}` as an input var for the action to access your private upstream repo.
 
 #### Advanced Use (all optional args)
 
-| Name                   | Required? | Default              | Example                    |
-| ---------------------- | :-------: | -------------------- | -------------------------- |
-| git_checkout_args      |           |                      | '--recurse-submodules'     |
-| git_fetch_args         |           |                      | '--tags'                   |
-| git_log_format_args    |           | '--pretty=oneline'   | '--graph --pretty=oneline' |
-| git_pull_args          |           | 'pull'               | '--ff-only'                |
-| git_push_args          |           |                      | '--force'                  |
-| git_user               |           | 'Action - Fork Sync' |                            |
-| git_email              |           | 'action@github.com'  |                            |
-| git_pull_rebase_config |           | 'false'              |                            |
+| Name                        |     Required?      | Default                     | Example                    |
+| --------------------------- | :----------------: | --------------------------- | -------------------------- |
+| host_domain                 | :white_check_mark: | 'github.com'                | 'github.com'               |
+| target_branch_checkout_args |                    |                             | '--recurse-submodules'     |
+| git_log_format_args         |                    | '--pretty=oneline'          | '--graph --pretty=oneline' |
+| upstream_pull_args          |                    |                             | '--ff-only --tags'         |
+| target_branch_push_args     |                    |                             | '--force'                  |
+| git_config_user             |                    | 'GH Action - Upstream Sync' |                            |
+| git_config_email            |                    | 'action@github.com'         |                            |
+| git_config_pull_rebase      |                    | 'false'                     |                            |
 
 ##### Git Config Settings
 
-Some basic git config settings must be in place to pull and push data during the action process. The following input values are set by default:
+Some basic git config settings must be in place to pull and push data during the action. As seen above, these inputs are required and have default values. They are reset when this action step is finished.
 
-- `git_user`
-- `git_email`
-- `git_pull_rebase_config` -> set the same as git default - 'pull.rebase = false'
-
-These values are reset at the end of the action step. They can be modified as input if you want a different config. **Set any of these config values to `null` to use existing git config data.**
-
-##### When You Want To Merge Into An Active Working Branch (Not Recommended)
-
-**If there are no conflicts between upstream and downstream branches** => set `git_pull_args: '--allow-unrelated-histories'`.
-
-This will allow divergent histories to be merged, but be careful with the results. It's very likely there will be conflicts in any merge unless you know *for sure* there won't be, so your mileage may vary here.
-
-**If you need to overwrite data for some reason** => `git_pull_args: '-s recursive -Xtheirs'` (or `-Xours`)
-
-Again, not recommended. But if you don't care about losing some data, just choose one side or the other. I actually haven't tested this, but I think it should go through. *Do you feel lucky, punk?*
+**Set any git config values to `null` to skip their configuration during this action step.**
 
 ### Output Variables
 
-**has_new_commits** - True when new commits were included in this sync
+| Name            | Output     | Description                                                                                                     |
+| --------------- | ---------- | --------------------------------------------------------------------------------------------------------------- |
+| has_new_commits | true/false | Outputs true if new commits were found in the remote repo, false if target repo already has the latest updates. |
 
-## Sync Process - Quick Overview
-
-Right now, the `main.js` script only exists to execute `upstream-sync.sh`. It's possible that future updates will add functionality. The shell script does the following:
-
-1. Check if you included `upstream_branch` in your inputs (required!)
-2. Make sure the right local branch is checked out (`target_branch`)
-3. Add the upstream repo you listed
-4. Check if there are any new commits to sync (and prints any new commits as oneline statements)
-5. Sync from the upstream repo (generally by pulling)
-6. Push to the target branch of the target repo
-
-**Ta-da!**
+Want more output variables? [Open an issue](https://github.com/aormsby/Fork-Sync-With-Upstream-action/issues) and let me know.
 
 ## Sample Workflow
-This workflow is currently in use in some of my forked repos. [View Live Sample](https://github.com/aormsby/F-hugo-theme-hello-friend/blob/Working/.github/workflows/wf-fork-sync.yaml)
 
 ```yaml
 on:
@@ -103,37 +80,49 @@ on:
 
   workflow_dispatch:  # click the button on Github repo!
 
-
 jobs:
-  sync_with_upstream:
+  sync_latest_from_upstream:
     runs-on: ubuntu-latest
-    name: Sync main with upstream latest
+    name: Sync latest commits from upstream repo
 
     steps:
+    # REQUIRED step
     # Step 1: run a standard checkout action, provided by github
-    - name: Checkout main
+    - name: Checkout target repo
       uses: actions/checkout@v2
       with:
-        ref: main
-        # submodules: 'recursive'     ### may be needed in your situation
+        # optional: set the branch to checkout,
+        # sync action checks out your 'target_sync_branch' anyway
+        ref:  my-branch
+        # REQUIRED if your upstream repo is private (see wiki)
+        persist-credentials: false
 
-    # Step 2: run this sync action - specify the upstream repo, upstream branch to sync with, and target sync branch
-    - name: Pull (Fast-Forward) upstream changes
+    # REQUIRED step
+    # Step 2: run the sync action
+    - name: Sync upstream changes
       id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v2.4
+      uses: aormsby/Fork-Sync-With-Upstream-action@v3.0
       with:
-        upstream_repository: aormsby/hugo-deploy-to-pages
-        upstream_branch: main
-        target_branch: main
-        git_pull_args: --ff-only                    # optional arg use, defaults to simple 'pull'
-        github_token: ${{ secrets.GITHUB_TOKEN }}   # optional, for accessing repos that require authentication
+        target_sync_branch: my-branch
+        # REQUIRED 'target_repo_token' exactly like this!
+        target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+        upstream_sync_branch: main
+        upstream_sync_repo: aormsby/Fork-Sync-With-Upstream-action
+        upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
 
-    # Step 3: Display a message if 'sync' step had new commits (simple test)
-    - name: Check for new commits
-      if: steps.sync.outputs.has_new_commits
-      run: echo "There were new commits."
+        # Set test_mode true to run tests instead of the true action!!
+        test_mode: true
+      
+    # Step 3: Display a sample message based on the sync output var 'has_new_commits'
+    - name: New commits found
+      if: steps.sync.outputs.has_new_commits == 'true'
+      run: echo "New commits were found to sync."
+    
+    - name: No new commits
+      if: steps.sync.outputs.has_new_commits == 'false'
+      run: echo "There were no new commits."
+      
+    - name: Show value of 'has_new_commits'
+      run: echo ${{ steps.sync.outputs.has_new_commits }}
 
-    # Step 4: Print a helpful timestamp for your records (not required, just nice)
-    - name: Timestamp
-      run: date
 ```
