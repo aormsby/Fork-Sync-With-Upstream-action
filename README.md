@@ -18,7 +18,7 @@ You have a branch on your `target` repo - the one you want to update - and a bra
 
 <img src="img/fork-sync-diagram.png" alt="sample git workflow">
 
-As stated, this works best if your target branch is a non-working branch - i.e. you don't make any commits to it. Check out the [wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#scenarios-for-advanced-input) for notes on how to use input vars for specific situations.
+As stated, this works best if your target branch is a non-working branch - i.e. you don't make any commits to it. Check out the [wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Scenarios-for-Advanced-Input) for notes on how to use input vars for specific situations.
 
 ## How to Use
 
