@@ -13,7 +13,7 @@ test_config_git() {
 get_current_user_config() {
     CURRENT_USER=$(git config --get --default="null" user.name)
     CURRENT_EMAIL=$(git config --get --default="null" user.email)
-    CURRENT_PULL_CONFIG=$(git config --get --default="null" pull.rebase)
+    CURRENT_PULL_CONFIG=$(git config --get --default="false" pull.rebase)
 }
 
 # set action config values
