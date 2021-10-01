@@ -13,7 +13,7 @@ test_config_git() {
 get_current_user_config() {
     CURRENT_USER=$(git config --get --default="null" user.name)
     CURRENT_EMAIL=$(git config --get --default="null" user.email)
-    CURRENT_PULL_CONFIG=$(git config --get --default="null" pull.rebase)
+    CURRENT_PULL_CONFIG=$(git config --get --default="false" pull.rebase)
 }
 
 # set action config values
@@ -58,6 +58,7 @@ verify_set_config() {
 
 # reset to original user config values
 reset_git_config() {
+    # unset user if value was previously null, else reset
     if [ "${CURRENT_USER}" = "null" ]; then
         git config --unset user.name
         CURRENT_USER=""
@@ -65,6 +66,7 @@ reset_git_config() {
         git config user.name "${CURRENT_USER}"
     fi
 
+    # unset email if value was previously null, else reset
     if [ "${CURRENT_EMAIL}" = "null" ]; then
         git config --unset user.email
         CURRENT_EMAIL=""
@@ -72,12 +74,8 @@ reset_git_config() {
         git config user.email "${CURRENT_EMAIL}"
     fi
 
-    if [ "${CURRENT_PULL_CONFIG}" = "null" ]; then
-        git config --unset pull.rebase
-        CURRENT_PULL_CONFIG=""
-    else
-        git config pull.rebase "${CURRENT_PULL_CONFIG}"
-    fi
+    # always reset pull.rebase
+    git config pull.rebase "${CURRENT_PULL_CONFIG}"
 }
 
 # verify original values

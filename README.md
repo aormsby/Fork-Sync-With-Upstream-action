@@ -6,6 +6,8 @@ An action with forks in mind! Automatically sync a branch on your fork with the 
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
 
+**\*\*FIXED in v3.1:\*\*** Git config values are now set only if they haven't been set elsewhere by other actions in a workflow. This was done to avoid conflict setting config values in other job steps (like [gpg commit signing](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/GPG-Signing))
+
 **\*\*NEW in v3:\*\*** Test Mode runs key checks on your input values to help you verify your action configuration before running and avoid errors when you go live! ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki#test-mode))
 
 <a href="https://www.buymeacoffee.com/aormsby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
@@ -101,7 +103,7 @@ jobs:
     # Step 2: run the sync action
     - name: Sync upstream changes
       id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v3.0
+      uses: aormsby/Fork-Sync-With-Upstream-action@v3.1
       with:
         target_sync_branch: my-branch
         # REQUIRED 'target_repo_token' exactly like this!
