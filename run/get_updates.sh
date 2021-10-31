@@ -63,6 +63,7 @@ find_last_synced_commit() {
 output_new_commit_list() {
     if [ -z "${LAST_SYNCED_COMMIT}" ]; then
         write_out -1 "\nNo previous sync found from upstream repo. Syncing entire commit history."
+        UNSHALLOW=true
     else
         write_out -1 '\nNew commits since last sync:'
         git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LAST_SYNCED_COMMIT}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
@@ -73,8 +74,14 @@ output_new_commit_list() {
 sync_new_commits() {
     write_out -1 '\nSyncing new commits...'
 
-    # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
-    git pull --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    if [ "${UNSHALLOW}" = true ]; then
+        git repack -d upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+        git pull --unshallow --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    else
+        # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
+        git pull --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    fi
+
     COMMAND_STATUS=$?
 
     if [ "${COMMAND_STATUS}" != 0 ]; then
