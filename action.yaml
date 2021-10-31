@@ -72,6 +72,11 @@ inputs:
     required: true
     default: 'github.com'
 
+  shallow_since:
+    description: 'Length of time used when fetching shallow repo data, should match how often you perform a sync'
+    required: true
+    default: '1 month ago'
+
 outputs:
   has_new_commits:
     description: 'true when new commits were included in this sync'

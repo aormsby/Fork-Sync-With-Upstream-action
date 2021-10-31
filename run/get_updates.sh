@@ -6,9 +6,8 @@
 check_for_updates() {
     write_out -1 'Checking for new commits on upstream branch.\n'
 
-    # TODO: extract shallow since var
     # fetch commits from upstream branch within given time frame (default 1 month)
-    git fetch --quiet --shallow-since="1 month ago" upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    git fetch --quiet --shallow-since="${INPUT_SHALLOW_SINCE}" upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
     COMMAND_STATUS=$?
 
     if [ "${COMMAND_STATUS}" != 0 ]; then
@@ -19,9 +18,8 @@ check_for_updates() {
 
     UPSTREAM_COMMIT_HASH=$(git rev-parse "upstream/${INPUT_UPSTREAM_SYNC_BRANCH}")
 
-    # TODO: extract shallow since var
     # check is latest upstream hash is in target branch
-    git fetch --quiet --shallow-since="1 month ago" origin "${INPUT_TARGET_SYNC_BRANCH}"
+    git fetch --quiet --shallow-since="${INPUT_SHALLOW_SINCE}" origin "${INPUT_TARGET_SYNC_BRANCH}"
     BRANCH_WITH_LATEST="$(git branch "${INPUT_TARGET_SYNC_BRANCH}" --contains="${UPSTREAM_COMMIT_HASH}")"
 
     if [ -z "${UPSTREAM_COMMIT_HASH}" ]; then
