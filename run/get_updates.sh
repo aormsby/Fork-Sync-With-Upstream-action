@@ -1,19 +1,23 @@
 #!/bin/sh
 
-# check latest commit hashes for a match, exit if nothing to sync
+# shellcheck disable=SC2086
 
+# check latest commit hashes for a match, exit if nothing to sync
 check_for_updates() {
     write_out -1 'Checking for new commits on upstream branch.\n'
 
     # get latest commit hashes from local and remote branches for comparison
-    # shellcheck disable=SC2086
-    git fetch upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
-    LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_SYNC_BRANCH}")
+    git fetch --depth=1 upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    # TODO: remove me?
+    # LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_SYNC_BRANCH}")
     UPSTREAM_COMMIT_HASH=$(git rev-parse "upstream/${INPUT_UPSTREAM_SYNC_BRANCH}")
 
-    if [ -z "${LOCAL_COMMIT_HASH}" ] || [ -z "${UPSTREAM_COMMIT_HASH}" ]; then
+    git fetch --shallow-since="1 week ago" origin "${INPUT_TARGET_SYNC_BRANCH}"
+    BRANCH_WITH_LATEST="$(git branch "${INPUT_TARGET_SYNC_BRANCH}" --contains="${UPSTREAM_COMMIT_HASH}")"
+
+    if [ -z "${UPSTREAM_COMMIT_HASH}" ]; then
         HAS_NEW_COMMITS="error"
-    elif [ "${LOCAL_COMMIT_HASH}" = "${UPSTREAM_COMMIT_HASH}" ]; then
+    elif [ -n "${BRANCH_WITH_LATEST}" ]; then
         HAS_NEW_COMMITS=false
     else
         HAS_NEW_COMMITS=true
@@ -34,10 +38,10 @@ exit_no_commits() {
     write_out 0 'No new commits to sync. Finishing sync action gracefully.'
 }
 
+# TODO: fix log output
 # display new commits since last sync
 output_new_commit_list() {
     write_out -1 '\nNew commits since last sync:'
-    # shellcheck disable=SC2086
     git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
@@ -46,7 +50,6 @@ sync_new_commits() {
     write_out -1 '\nSyncing new commits...'
 
     # pull_args examples: "--ff-only", "--tags", "--ff-only --tags"
-    # shellcheck disable=SC2086
     git pull --no-edit ${INPUT_UPSTREAM_PULL_ARGS} upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
     COMMAND_STATUS=$?
 
