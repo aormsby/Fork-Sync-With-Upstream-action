@@ -63,8 +63,12 @@ find_last_synced_commit() {
 
 # display new commits since last sync
 output_new_commit_list() {
-    write_out -1 '\nNew commits since last sync:'
-    git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LAST_SYNCED_COMMIT}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
+    if [ -z "${LAST_SYNCED_COMMIT}" ]; then
+        write_out -1 "\nNo previous sync found from upstream repo. Syncing entire commit history."
+    else
+        write_out -1 '\nNew commits since last sync:'
+        git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LAST_SYNCED_COMMIT}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
+    fi
 }
 
 # sync from upstream to target_sync_branch
