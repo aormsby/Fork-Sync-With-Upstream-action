@@ -6,13 +6,22 @@
 check_for_updates() {
     write_out -1 'Checking for new commits on upstream branch.\n'
 
-    # get latest commit hashes from local and remote branches for comparison
-    git fetch --depth=1 upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
-    # TODO: remove me?
-    # LOCAL_COMMIT_HASH=$(git rev-parse "${INPUT_TARGET_SYNC_BRANCH}")
+    # TODO: extract shallow since var
+    # fetch commits from upstream branch within given time frame (default 1 month)
+    git fetch --quiet --shallow-since="1 month ago" upstream "${INPUT_UPSTREAM_SYNC_BRANCH}"
+    COMMAND_STATUS=$?
+
+    if [ "${COMMAND_STATUS}" != 0 ]; then
+        # if shallow fetch fails, no new commits are avilable for sync
+        HAS_NEW_COMMITS=false
+        exit_no_commits
+    fi
+
     UPSTREAM_COMMIT_HASH=$(git rev-parse "upstream/${INPUT_UPSTREAM_SYNC_BRANCH}")
 
-    git fetch --shallow-since="1 week ago" origin "${INPUT_TARGET_SYNC_BRANCH}"
+    # TODO: extract shallow since var
+    # check is latest upstream hash is in target branch
+    git fetch --quiet --shallow-since="1 month ago" origin "${INPUT_TARGET_SYNC_BRANCH}"
     BRANCH_WITH_LATEST="$(git branch "${INPUT_TARGET_SYNC_BRANCH}" --contains="${UPSTREAM_COMMIT_HASH}")"
 
     if [ -z "${UPSTREAM_COMMIT_HASH}" ]; then
@@ -38,11 +47,24 @@ exit_no_commits() {
     write_out 0 'No new commits to sync. Finishing sync action gracefully.'
 }
 
-# TODO: fix log output
+find_last_synced_commit() {
+    LAST_SYNCED_COMMIT=""
+    TARGET_BRANCH_LOG="$(git rev-list "${INPUT_TARGET_SYNC_BRANCH}")"
+    UPSTREAM_BRANCH_LOG="$(git rev-list "upstream/${INPUT_UPSTREAM_SYNC_BRANCH}")"
+
+    for hash in ${TARGET_BRANCH_LOG}; do
+        UPSTREAM_CHECK="$(echo "${UPSTREAM_BRANCH_LOG}" | grep "${hash}")"
+        if [ -n "${UPSTREAM_CHECK}" ]; then
+            LAST_SYNCED_COMMIT="${hash}"
+            break
+        fi
+    done
+}
+
 # display new commits since last sync
 output_new_commit_list() {
     write_out -1 '\nNew commits since last sync:'
-    git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LOCAL_COMMIT_HASH}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
+    git log upstream/"${INPUT_UPSTREAM_SYNC_BRANCH}" "${LAST_SYNCED_COMMIT}"..HEAD ${INPUT_GIT_LOG_FORMAT_ARGS}
 }
 
 # sync from upstream to target_sync_branch

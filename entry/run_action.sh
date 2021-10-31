@@ -21,8 +21,9 @@ set_upstream
 # check for new commits and sync or exit
 . "${ACTION_PARENT_DIR}"/run/get_updates.sh
 check_for_updates
-# output_new_commit_list
-# sync_new_commits
+find_last_synced_commit
+output_new_commit_list
+sync_new_commits
 
 # # shellcheck disable=SC1091
 # # push newly synced commits to local branch
