@@ -78,6 +78,8 @@ Want more output variables? [Open an issue](https://github.com/aormsby/Fork-Sync
 ## Sample Workflow
 
 ```yaml
+name: 'Usptream Sync'
+
 on:
   schedule:
     - cron:  '0 7 * * 1,4'
