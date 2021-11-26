@@ -6,7 +6,7 @@ An action with forks in mind! Automatically sync a branch on your fork with the 
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
 
-**\*\*FIXED in v3.1:\*\*** Git config values are now set only if they haven't been set elsewhere by other actions in a workflow. This was done to avoid conflict setting config values in other job steps (like [gpg commit signing](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/GPG-Signing))
+**\*\*FIXED in v3.2:\*\*** Checking for new commits to sync has been improved to better support active development branches. Instead of only comparing head SHA values, it does a deeper hash comparison between the target and upstream branches since the last action run. Length of time is based on new input var `shallow_since`, which defaults to `1 month ago`. ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#advanced-use))
 
 **\*\*NEW in v3:\*\*** Test Mode runs key checks on your input values to help you verify your action configuration before running and avoid errors when you go live! ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki#test-mode))
 
@@ -47,16 +47,19 @@ This action supports syncing from both public and private upstream repos. Store 
 
 #### Advanced Use (all optional args)
 
-| Name                        |     Required?      | Default                     | Example                    |
-| --------------------------- | :----------------: | --------------------------- | -------------------------- |
-| host_domain                 | :white_check_mark: | 'github.com'                | 'github.com'               |
-| target_branch_checkout_args |                    |                             | '--recurse-submodules'     |
-| git_log_format_args         |                    | '--pretty=oneline'          | '--graph --pretty=oneline' |
-| upstream_pull_args          |                    |                             | '--ff-only --tags'         |
-| target_branch_push_args     |                    |                             | '--force'                  |
-| git_config_user             |                    | 'GH Action - Upstream Sync' |                            |
-| git_config_email            |                    | 'action@github.com'         |                            |
-| git_config_pull_rebase      |                    | 'false'                     |                            |
+| Name                        |     Required?      | Default                     | Example                             |
+| --------------------------- | :----------------: | --------------------------- | ----------------------------------- |
+| host_domain                 | :white_check_mark: | 'github.com'                | 'github.com'                        |
+| shallow_since               | :white_check_mark: | '1 month ago'               | '2 days ago', '3 weeks 7 hours ago' |
+| target_branch_checkout_args |                    |                             | '--recurse-submodules'              |
+| git_log_format_args         |                    | '--pretty=oneline'          | '--graph --pretty=oneline'          |
+| upstream_pull_args          |                    |                             | '--ff-only --tags'                  |
+| target_branch_push_args     |                    |                             | '--force'                           |
+| git_config_user             |                    | 'GH Action - Upstream Sync' |                                     |
+| git_config_email            |                    | 'action@github.com'         |                                     |
+| git_config_pull_rebase      |                    | 'false'                     |                                     |
+
+`shallow_since` -> Value should match the time between workflow runs to get the history depth required (but no more) for a good check of new commits to sync
 
 ##### Git Config Settings
 
@@ -75,6 +78,8 @@ Want more output variables? [Open an issue](https://github.com/aormsby/Fork-Sync
 ## Sample Workflow
 
 ```yaml
+name: 'Usptream Sync'
+
 on:
   schedule:
     - cron:  '0 7 * * 1,4'
@@ -103,7 +108,7 @@ jobs:
     # Step 2: run the sync action
     - name: Sync upstream changes
       id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v3.1
+      uses: aormsby/Fork-Sync-With-Upstream-action@v3.2
       with:
         target_sync_branch: my-branch
         # REQUIRED 'target_repo_token' exactly like this!
