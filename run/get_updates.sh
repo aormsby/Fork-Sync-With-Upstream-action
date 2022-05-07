@@ -13,6 +13,7 @@ check_for_updates() {
     if [ "${COMMAND_STATUS}" != 0 ]; then
         # if shallow fetch fails, no new commits are avilable for sync
         HAS_NEW_COMMITS=false
+        set_out_put
         exit_no_commits
     fi
 
@@ -31,7 +32,7 @@ check_for_updates() {
     fi
 
     # output 'has_new_commits' value to workflow environment
-    echo "::set-output name=has_new_commits::${HAS_NEW_COMMITS}"
+    set_out_put
 
     # early exit if no new commits or something failed
     if [ "${HAS_NEW_COMMITS}" = false ]; then
@@ -43,6 +44,10 @@ check_for_updates() {
 
 exit_no_commits() {
     write_out 0 'No new commits to sync. Finishing sync action gracefully.'
+}
+
+set_out_put() {
+    echo "::set-output name=has_new_commits::${HAS_NEW_COMMITS}"
 }
 
 find_last_synced_commit() {
