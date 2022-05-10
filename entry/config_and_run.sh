@@ -48,7 +48,7 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     # shellcheck disable=SC2034
     INPUT_UPSTREAM_PULL_ARGS=""
     # shellcheck disable=SC2034
-    INPUT_TARGET_PUSH_ARGS=""
+    INPUT_TARGET_BRANCH_PUSH_ARGS=""
     
     # git config vars - required if they aren't already set
     # shellcheck disable=SC2034

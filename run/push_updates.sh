@@ -11,7 +11,7 @@ push_new_commits() {
     fi
 
     # shellcheck disable=SC2086
-    git push ${INPUT_TARGET_PUSH_ARGS} origin "${INPUT_TARGET_SYNC_BRANCH}"
+    git push ${INPUT_TARGET_BRANCH_PUSH_ARGS} origin "${INPUT_TARGET_SYNC_BRANCH}"
     COMMAND_STATUS=$?
 
     if [ "${COMMAND_STATUS}" != 0 ]; then
