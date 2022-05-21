@@ -78,7 +78,7 @@ Want more output variables? [Open an issue](https://github.com/aormsby/Fork-Sync
 ## Sample Workflow
 
 ```yaml
-name: 'Usptream Sync'
+name: 'Upstream Sync'
 
 on:
   schedule:
