@@ -6,9 +6,9 @@ An action with forks in mind! Automatically sync a branch on your fork with the 
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
 
-**\*\*FIXED in v3.2:\*\*** Checking for new commits to sync has been improved to better support active development branches. Instead of only comparing head SHA values, it does a deeper hash comparison between the target and upstream branches since the last action run. Length of time is based on new input var `shallow_since`, which defaults to `1 month ago`. ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#advanced-use))
-
-**\*\*NEW in v3:\*\*** Test Mode runs key checks on your input values to help you verify your action configuration before running and avoid errors when you go live! ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki#test-mode))
+**\*\*FIXED in v3.3:\*\***
+- Changed variable name to match the docs -- INPUT_TARGET_PUSH_ARGS ---> INPUT_TARGET_BRANCH_PUSH_ARGS
+- Output for `has_new_commits` is now properly set if fetching from upstream results in error
 
 <a href="https://www.buymeacoffee.com/aormsby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
