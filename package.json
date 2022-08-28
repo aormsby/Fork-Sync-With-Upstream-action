@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/aormsby/fork-sync-with-upstream-action#readme",
   "dependencies": {
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.9.1",
     "@actions/exec": "^1.0.4"
   }
 }
