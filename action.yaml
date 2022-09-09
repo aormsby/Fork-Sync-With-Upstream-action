@@ -1,67 +1,81 @@
-name: 'Fork Sync With Upstream'
+name: 'Upstream Sync'
 author: 'Adam Ormsby (@aormsby)'
-description: 'Automatically updates fork with new commits from upstream repo, safest to run on an unmodified branch'
+description: 'Automatically updates a target branch with new commits from an upstream repo, great for forks or parallel projects'
 
 branding:
   icon: refresh-ccw
   color: orange
 
 inputs:
-  github_token:
-    description: 'Token for accessing the remote repo with authentication'
+  target_sync_branch:
+    description: 'Branch receiving updates from the upstream repo, e.g. => main, master, prod'
+    required: true
+
+  target_repo_token:
+    description: 'Input for passing secrets.GITHUB_TOKEN when disabling persistent auth in the checkout step'
+    required: true
+
+  upstream_repo_access_token:
+    description: 'Token for accessing the remote repo through HTTPS authentication'
     required: false
 
-  upstream_repository:
+  upstream_sync_repo:
     description: 'Upstream repository, e.g. => aormsby/Fork-Sync-With-Upstream-action'
     required: true
 
-  upstream_branch:
+  upstream_sync_branch:
     description: 'Branch to sync from, e.g. => main, master, dev'
     required: true
 
-  target_branch:
-    description: 'Branch to push to, e.g. => main, master, prod'
-    required: true
-
-  git_checkout_args:
-    description: 'Any extra args to pass to `git checkout` like --recurse-submodules (only used when current branch is not target_branch), default = ""'
-    required: false
-    default: ''
-
-  git_fetch_args:
-    description: 'Any extra args to pass to `git fetch` like --recurse-submodules, default = ""'
+  target_branch_checkout_args:
+    description: 'Any extra args to pass to `git checkout` on the source branch, e.g. --recurse-submodules :: default = ""'
     required: false
     default: ''
 
   git_log_format_args:
-    description: 'How to print the list of new commits, default = --pretty=oneline'
+    description: 'Args to print the list of new commits from upstream :: default = --pretty=oneline'
     required: false
     default: '--pretty=oneline'
 
-  git_pull_args:
-    description: 'Any extra args to pass to `git push` like --ff-only or --tags, default = ""'
+  upstream_pull_args:
+    description: 'Git args passed when running `git pull` against the upstream repo, e.g. --ff-only or --tags :: default = ""'
     required: false
     default: ''
 
-  git_push_args:
-    description: 'Any extra args to pass to `git push` like --force, default = ""'
+  target_branch_push_args:
+    description: 'Git args passed when running `git push` to apply changes to the source repo, e.g. --force :: default = ""'
     required: false
     default: ''
   
-  git_user:
-    description: 'Git user credentials for sigining commit (set to "null" for no credential changes)'
-    required: false
-    default: 'Action - Fork Sync'
+  git_config_user:
+    description: 'Git user credentials for sigining commit, (set to "null" for no config)'
+    required: true
+    default: 'GH Action - Upstream Sync'
 
-  git_email:
-    description: 'Git email credentials for sigining commit (set to "null" for no credential changes)'
-    required: false
+  git_config_email:
+    description: 'Git email credentials for sigining commit (set to "null" for no config)'
+    required: true
     default: 'action@github.com'
   
-  git_pull_rebase_config:
-    description: 'Git config for "pull.rebase" (standard default to false, set to "null" for no config)'
-    required: false
+  git_config_pull_rebase:
+    description: 'Git config for "pull.rebase" settings, usually recommend false for this action (set to "null" for no config)'
+    required: true
     default: 'false'
+
+  test_mode:
+    description: If set to 'true', runs verification test on all inputs and any testable actions that use them
+    required: true
+    default: 'false'
+  
+  host_domain:
+    description: 'Domain name to be used in upstream repo URL.'
+    required: true
+    default: 'github.com'
+
+  shallow_since:
+    description: 'Length of time used when fetching shallow repo data, should match how often you perform a sync'
+    required: true
+    default: '1 month ago'
 
 outputs:
   has_new_commits:
