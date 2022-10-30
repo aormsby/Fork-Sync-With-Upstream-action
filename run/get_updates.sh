@@ -47,7 +47,7 @@ exit_no_commits() {
 }
 
 set_out_put() {
-    echo "::set-output name=has_new_commits::${HAS_NEW_COMMITS}"
+    echo "has_new_commits=${HAS_NEW_COMMITS}" >> $GITHUB_OUTPUT
 }
 
 find_last_synced_commit() {
