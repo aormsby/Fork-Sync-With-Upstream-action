@@ -1,14 +1,15 @@
 # Github Action: Upstream Sync
 
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/aormsby/Fork-Sync-With-Upstream-action)
+[Open in Visual Studio Code](https://open.vscode.dev/aormsby/Fork-Sync-With-Upstream-action)
 
 An action with forks in mind! Automatically sync a branch on your fork with the latest commits from the original repo. Keep things up to date!
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
 
-**\*\*FIXED in v3.3:\*\***
-- Changed variable name to match the docs -- INPUT_TARGET_PUSH_ARGS ---> INPUT_TARGET_BRANCH_PUSH_ARGS
-- Output for `has_new_commits` is now properly set if fetching from upstream results in error
+**\*\*CHANGED in v3.4:\*\***
+- Bump from `node12` to `node16`
+- Update the ouptut command for `HAS_NEW_COMMITS`
+- Fix incorrect token used during push step
 
 <a href="https://www.buymeacoffee.com/aormsby" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-green.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
@@ -108,7 +109,7 @@ jobs:
     # Step 2: run the sync action
     - name: Sync upstream changes
       id: sync
-      uses: aormsby/Fork-Sync-With-Upstream-action@v3.2
+      uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
       with:
         target_sync_branch: my-branch
         # REQUIRED 'target_repo_token' exactly like this!
