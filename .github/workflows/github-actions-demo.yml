@@ -1,0 +1,20 @@
+on:
+  push:
+    branches:
+      -master
+  schedule:
+    - cron: 0 */12 * * *
+    # 每隔12小时
+jobs:
+  update_external_airflow_fork:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: TobKed/github-forks-sync-action@master
+        with:
+          github_token: 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 # 令牌
+          upstream_repository: qq_32394351/dr_py  # 上游仓库
+          target_repository: cfsxy/dr_py  # 你要推送的仓库
+          upstream_branch: master  # 默认是拉取上游仓库的master分支
+          target_branch: master  # 默认推送到你的仓库master分支
+          force: true  # 是否强制推送
+          tags: true  # 确定是否使用-tags
