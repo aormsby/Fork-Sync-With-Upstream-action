@@ -2,6 +2,12 @@
 
 [Open in Visual Studio Code](https://open.vscode.dev/aormsby/Fork-Sync-With-Upstream-action)
 
+## Limited Support
+
+Please note that I am no longer actively working on this project. For the moment, I will continue curating fixes and updates, and I will consider merging your proposed PRs as long as they come with test support, well-documented changes, and have been thoroughly proven to work as expected. I've opened the Discussion tab on this repo, so please feel free to chat about anything there. Perhaps with enough interest we can continue development as a community. Thanks for using this Action. Happy coding.
+
+## About
+
 An action with forks in mind! Automatically sync a branch on your fork with the latest commits from the original repo. Keep things up to date!
 
 **Bonus:** This action can also sync between branches on any two repositories. So you have options. :slightly_smiling_face:
