@@ -103,7 +103,7 @@ jobs:
     # REQUIRED step
     # Step 1: run a standard checkout action, provided by github
     - name: Checkout target repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         # optional: set the branch to checkout,
         # sync action checks out your 'target_sync_branch' anyway
