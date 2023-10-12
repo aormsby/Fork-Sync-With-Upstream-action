@@ -50,7 +50,7 @@ As stated, this works best if your target branch is a non-working branch - i.e. 
 
 **Always** set `target_repo_token` to `${{ secrets.GITHUB_TOKEN }}` so the action can push to your target repo. ([wiki](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#setup-notes))
 
-This action supports syncing from both public and private upstream repos. Store an authentication token in your target repo and use `github_token: ${{ secrets.NAME_OF_TOKEN }}` as an input var for the action to access your private upstream repo.
+This action supports syncing from both public and private upstream repos. Store an authentication token in your target repo and use `upstream_repo_access_token: ${{ secrets.NAME_OF_TOKEN }}` as an input var for the action to access your private upstream repo.
 
 #### Advanced Use (all optional args)
 
