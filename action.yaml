@@ -82,5 +82,5 @@ outputs:
     description: 'true when new commits were included in this sync'
 
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'main.js'
