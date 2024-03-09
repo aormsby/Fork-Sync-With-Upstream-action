@@ -62,6 +62,11 @@ on:
     # scheduled at 07:00 every Monday and Thursday
 
   workflow_dispatch:  # click the button on Github repo!
+    inputs:
+      sync_test_mode: # Adds a boolean option that appears during manual workflow run for easy test mode config
+        description: 'Fork Sync Test Mode'
+        type: boolean
+        default: false
 
 jobs:
   sync_latest_from_upstream:
@@ -93,8 +98,8 @@ jobs:
         upstream_sync_repo: aormsby/Fork-Sync-With-Upstream-action
         upstream_repo_access_token: ${{ secrets.UPSTREAM_REPO_SECRET }}
 
-        # Set test_mode true to run tests instead of the true action!!
-        test_mode: true
+        # Set test_mode true during manual dispatch to run tests instead of the true action!!
+        test_mode: ${{ inputs.sync_test_mode }}
       
     # Step 3: Display a sample message based on the sync output var 'has_new_commits'
     - name: New commits found
