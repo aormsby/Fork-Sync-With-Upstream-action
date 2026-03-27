@@ -32,6 +32,7 @@ Configure the action with a branch on your `target` repo - the one you want to u
 
 | Name                       |     Required?      | Default | Example                                  |
 | -------------------------- | :----------------: | ------- | ---------------------------------------- |
+| target_sync_repo           | :white_check_mark: |         |                                          |
 | target_sync_branch         | :white_check_mark: |         | 'master', 'main', 'my-branch'            |
 | target_repo_token          | :white_check_mark: |         | ${{ secrets.GITHUB_TOKEN }}              |
 | upstream_repo_access_token |                    |         | ${{ secrets.NAME_OF_TOKEN }}             |
@@ -39,7 +40,8 @@ Configure the action with a branch on your `target` repo - the one you want to u
 | upstream_sync_branch       | :white_check_mark: |         | 'master', 'main', 'my-branch'            |
 | test_mode                  |                    | false   | true / false                             |
 
-**Always** set `target_repo_token` to `${{ secrets.GITHUB_TOKEN }}` so the action can push to your target repo.
+`target_sync_repo` can ***only*** be a repo in which you have owner access.
+If it corresponds to the repo in which the workflow is being used set `target_repo_token` as `${{ secrets.GITHUB_TOKEN }}`, otherwise `target_repo_token` should be a **[Private Access Token](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Setup-Access-Token)** (`persist-credentials: false` is also **[needed](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration#private)**)
 
 > For more information on optional input variables, advanced configurations, and working with private repos, see [Wiki - Configuration](https://github.com/aormsby/Fork-Sync-With-Upstream-action/wiki/Configuration)
 
@@ -91,8 +93,9 @@ jobs:
       id: sync
       uses: aormsby/Fork-Sync-With-Upstream-action@v3.4.1
       with:
+        target_sync_repo: my-repo
         target_sync_branch: my-branch
-        # REQUIRED 'target_repo_token' exactly like this!
+        # can also be target_repo_token: ${{ secrets.MY_TOKEN }} (see Input Variables)
         target_repo_token: ${{ secrets.GITHUB_TOKEN }}
         upstream_sync_branch: main
         upstream_sync_repo: aormsby/Fork-Sync-With-Upstream-action

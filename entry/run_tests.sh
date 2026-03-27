@@ -14,5 +14,10 @@ test_has_upstream_repo_access
 cleanup_test_dir
 
 # shellcheck disable=SC1091
+. "${ACTION_PARENT_DIR}"/test/verify_target_access.sh
+test_has_target_repo_access
+cleanup_test_dir
+
+# shellcheck disable=SC1091
 . "${ACTION_PARENT_DIR}"/test/verify_git_config.sh
 test_config_git

@@ -7,7 +7,7 @@ push_new_commits() {
     # TODO: figure out how this would work in local mode...
     # update remote url with token since it is not persisted during checkout step when syncing from a private repo
     if [ -n "${INPUT_TARGET_REPO_TOKEN}" ]; then
-        git remote set-url origin "https://${GITHUB_ACTOR}:${INPUT_TARGET_REPO_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git remote set-url origin "https://${GITHUB_ACTOR}:${INPUT_TARGET_REPO_TOKEN}@github.com/${INPUT_TARGET_SYNC_REPO}.git"
     fi
 
     # shellcheck disable=SC2086

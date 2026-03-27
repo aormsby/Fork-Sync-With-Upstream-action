@@ -7,6 +7,10 @@
 . "${ACTION_PARENT_DIR}"/run/config_git.sh
 config_for_action
 
+# set target repo
+. "${ACTION_PARENT_DIR}"/run/set_target_repo.sh
+set_target
+
 # checkout target branch in target repo
 . "${ACTION_PARENT_DIR}"/run/checkout_branch.sh
 checkout

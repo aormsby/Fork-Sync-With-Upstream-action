@@ -7,6 +7,10 @@ branding:
   color: orange
 
 inputs:
+  target_sync_repo:
+    description: 'Repo receiving updates from the upstream repo'
+    required: true
+    
   target_sync_branch:
     description: 'Branch receiving updates from the upstream repo, e.g. => main, master, prod'
     required: true

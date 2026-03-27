@@ -1,9 +1,23 @@
 #!/bin/sh
 
+test_target_repo_exists() {
+    write_out "y" "TEST"
+    write_out -1 "[Verify Target Sync Repo Exists] -> tests 'target_sync_repo' input"
+    VERIFY_TARGET_REPO=$(git ls-remote "${TARGET_REPO_URL}" --quiet)
+
+    # var is empty on success, so fail if return value has any data
+    if [ -n "${VERIFY_TARGET_REPO}" ]; then
+        write_out "r" "FAILED - Target repo '${INPUT_TARGET_SYNC_REPO}' not found OR you do not have permission to view it\n"
+    else
+        write_out "g" "PASSED\n"
+    fi
+
+}
+
 test_target_branch_exists() {
     write_out "y" "TEST"
     write_out -1 "[Verify Target Sync Branch] -> tests 'target_sync_branch' input"
-    VERIFY_TARGET_BRANCH=$(git rev-parse --verify "remotes/origin/${INPUT_TARGET_SYNC_BRANCH}")
+    VERIFY_TARGET_BRANCH=$(git ls-remote "${TARGET_REPO_URL}" "${INPUT_TARGET_SYNC_BRANCH}" --quiet)
 
     if [ -z "${VERIFY_TARGET_BRANCH}" ]; then
         write_out "r" "FAILED - no branch '${INPUT_TARGET_SYNC_BRANCH}' to run action on\nDid you set 'ref' correctly in the checkout step?\n"

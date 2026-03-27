@@ -29,7 +29,7 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     # shellcheck disable=SC2034
     INPUT_TARGET_REPO_TOKEN=""
     # shellcheck disable=SC2034
-    GITHUB_REPOSITORY=""
+    INPUT_TARGET_SYNC_REPO=""
     
     # required vars (except token)
     # shellcheck disable=SC2034
@@ -60,6 +60,14 @@ if [ -z "${GITHUB_ACTIONS}" ] || [ "${GITHUB_ACTIONS}" = false ]; then
     # endregion
 
     INPUT_HOST_DOMAIN='github.com'
+fi
+
+if [ -z "${INPUT_TARGET_REPO_TOKEN}" ]; then
+    # shellcheck disable=SC2034
+    TARGET_REPO_URL="https://${INPUT_HOST_DOMAIN}/${INPUT_TARGET_SYNC_REPO}.git"
+else
+    # shellcheck disable=SC2034
+    TARGET_REPO_URL="https://${GITHUB_ACTOR}:${INPUT_TARGET_REPO_TOKEN}@${INPUT_HOST_DOMAIN}/${INPUT_TARGET_SYNC_REPO}.git"
 fi
 
 if [ -z "${INPUT_UPSTREAM_REPO_ACCESS_TOKEN}" ]; then
